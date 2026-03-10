@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -132,10 +133,10 @@ footer p{font-size:11px;font-weight:300;letter-spacing:0.15em;color:var(--cs);op
 
 <header>
   <div class="logo-wrap">
-    <img src="{{LOGO_URL}}" alt="GID" onerror="this.style.display='none'">
+    <img src="https://drive.google.com/uc?id=1YCEzHV8ppjFiLg_oiu1RIQlVXCfBJTvP" alt="GID" onerror="this.style.display='none'">
   </div>
-  <span class="h-inst" id="h-inst">{{INSTITUCION}}</span>
-  <span class="h-depto" id="h-depto">{{DEPARTAMENTO}}</span>
+  <span class="h-inst" id="h-inst">I.P.E.M. N°144: Mariano Moreno</span>
+  <span class="h-depto" id="h-depto">Departamento de F.V.T.</span>
   <h1 class="h-titulo">Gestor de<br>Información<br>Departamental</h1>
   <p class="h-gid">(G.I.D.)</p>
   <p class="h-bienestar">Bienestar Digital</p>
@@ -182,44 +183,68 @@ footer p{font-size:11px;font-weight:300;letter-spacing:0.15em;color:var(--cs);op
 </div>
 <script>
 var SHEET_ID = '17sj1cY1PWxtax-ejWp5-tsRf7iSAUVqMAmFdaPbm6q8';
+var SHEET_PUB_ID = '2PACX-1vQvKzpCUkWuBJYYAs6Rzf2lt0UQgwmDT3vFhzzHzMQbDWSPIO8FcAJyMhAUHQUCNP3_c-JYgPTyp9eJ';
 var seccionActiva = null;
 var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 var cache = {};
 
 function sheetUrl(hoja){
-  return 'https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:json&sheet='+encodeURIComponent(hoja);
+  return 'https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:json&sheet='+encodeURIComponent(hoja)+'&headers=0';
 }
 
 function leerHoja(hoja, callback){
   if(cache[hoja]){ callback(cache[hoja]); return; }
-  var s = document.createElement('script');
-  var fn = 'gviz_'+hoja.replace(/[^a-zA-Z0-9]/g,'_')+'_'+Date.now();
+  var fn = 'cb_'+hoja.replace(/[^a-zA-Z0-9]/g,'_')+'_'+Date.now();
   window[fn] = function(data){
     var rows = [];
     if(data && data.table && data.table.rows){
       data.table.rows.forEach(function(r){
         var row = [];
-        if(r.c) r.c.forEach(function(c){ row.push(c ? (c.v||c.f||'') : ''); });
+        if(r.c) r.c.forEach(function(c){
+          if(!c){ row.push(''); return; }
+          // Fechas vienen como "Date(2026,2,8)" en gviz
+          if(c.v && typeof c.v === 'string' && c.v.indexOf('Date(')===0){
+            var m=c.v.match(/Date\((\d+),(\d+),(\d+)/);
+            if(m) row.push(parseInt(m[3])+'/'+(parseInt(m[2])+1));
+            else row.push(c.f||c.v||'');
+          } else {
+            row.push(c.f || c.v || '');
+          }
+        });
         rows.push(row);
       });
     }
     cache[hoja] = rows;
     callback(rows);
-    delete window[fn];
+    try{ delete window[fn]; } catch(e){}
+  };
+  var url = 'https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:json%26callback='+fn+'&sheet='+encodeURIComponent(hoja);
+  var s = document.createElement('script');
+  s.src = url;
+  s.onerror = function(){ 
+    // Intentar con CSV como fallback
+    fetch('https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent(hoja))
+      .then(function(r){ return r.text(); })
+      .then(function(csv){
+        var rows = csv.split('\n').slice(1).map(function(line){
+          return line.split(',').map(function(c){ return c.replace(/^"|"$/g,'').trim(); });
+        }).filter(function(r){ return r.some(function(c){ return c; }); });
+        cache[hoja]=rows; callback(rows);
+      })
+      .catch(function(){ callback([]); });
     s.remove();
   };
-  s.src = sheetUrl(hoja)+'&tqx=out:json&callback='+fn;
-  s.onerror = function(){ callback([]); s.remove(); };
   document.head.appendChild(s);
 }
 
 function formatFecha(v){
   if(!v) return '';
-  if(typeof v === 'string' && v.indexOf('/')>-1) return v;
-  // Google gviz devuelve fechas como "Date(2026,2,8)"
-  var m = String(v).match(/Date\((\d+),(\d+),(\d+)/);
-  if(m) return parseInt(m[3])+'/'+(parseInt(m[2])+1);
-  return v;
+  var s = String(v);
+  if(s.indexOf('/')>-1) return s;
+  // Por si llega como objeto Date de JS
+  var d = new Date(v);
+  if(!isNaN(d.getTime())) return d.getDate()+'/'+(d.getMonth()+1);
+  return s;
 }
 
 // ── ABRIR SECCIÓN ──

@@ -7,6 +7,24 @@
 <title>G.I.D.</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
 <style>
+/* ── SPLASH ── debe ir primero */
+#splash{
+  position:fixed;top:0;left:0;width:100vw;height:100vh;
+  background:#001a12;
+  z-index:999999;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+#splash-logo{
+  width:88vw;height:auto;
+  opacity:0;transform:scale(0.85);
+  transition:opacity 1.2s ease,transform 1.2s ease;
+  position:relative;z-index:2;
+}
+#splash-pts{position:absolute;inset:0;pointer-events:none;z-index:1;}
+@keyframes pt{0%{opacity:1;transform:translate(0,0) scale(1);}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0);}}
+
+/* ── BASE ── */
 :root{--vp:#034C36;--vo:#003332;--cr:#F2E0DF;--cs:#BDCDCF;--sa:#E3B8B8;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{font-size:18px;}
@@ -16,8 +34,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 /* Header */
 header{padding:36px 0 24px;text-align:center;}
-.logo-wrap{margin-bottom:16px;}
-.logo-wrap img{width:72px;height:auto;opacity:0.9;}
+.mate-wrap{margin:0 auto 20px;width:56px;height:68px;display:block;}
+.mate-svg{width:56px;height:68px;filter:drop-shadow(0 0 8px rgba(3,76,54,0.6));transition:filter 0.3s;}
+.mate-svg:hover{filter:drop-shadow(0 0 14px rgba(227,184,184,0.4));}
 .h-inst{font-size:11px;font-weight:300;letter-spacing:0.25em;text-transform:uppercase;color:var(--sa);opacity:0.7;margin-bottom:4px;display:block;}
 .h-depto{font-size:20px;font-weight:300;letter-spacing:0.15em;color:var(--sa);margin-bottom:16px;display:block;}
 .h-titulo{font-size:18px;font-weight:200;letter-spacing:0.22em;text-transform:uppercase;line-height:1.6;}
@@ -74,8 +93,6 @@ header{padding:36px 0 24px;text-align:center;}
 .card-texto{font-size:15px;color:var(--cs);line-height:1.6;font-weight:300;}
 .card-link{display:inline-block;margin-top:10px;font-size:14px;color:var(--sa);text-decoration:none;border-bottom:1px solid rgba(227,184,184,0.3);padding-bottom:2px;}
 .card img{width:100%;border-radius:10px;margin-top:12px;}
-
-/* Cumpleaños */
 .card-cumple{display:flex;align-items:center;gap:16px;}
 .card-cumple-foto{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid rgba(189,205,207,0.2);flex-shrink:0;}
 .card-cumple-avatar{width:56px;height:56px;border-radius:50%;background:var(--vp);border:2px solid rgba(189,205,207,0.2);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
@@ -84,7 +101,6 @@ header{padding:36px 0 24px;text-align:center;}
 
 /* Comentarios */
 .btn-comentarios{background:none;border:none;color:var(--cs);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;padding:8px 0 0;opacity:0.6;letter-spacing:0.05em;}
-.btn-comentarios:active{opacity:1;}
 .comentarios-panel{margin-top:12px;border-top:1px solid rgba(189,205,207,0.1);padding-top:12px;display:none;}
 .comentario-item{padding:10px 0;border-bottom:1px solid rgba(189,205,207,0.07);}
 .comentario-nombre{font-size:11px;color:var(--sa);letter-spacing:0.05em;margin-bottom:4px;}
@@ -123,32 +139,19 @@ header{padding:36px 0 24px;text-align:center;}
 .cal-ev-link{font-size:12px;color:var(--sa);margin-top:5px;display:inline-block;text-decoration:none;border-bottom:1px solid rgba(227,184,184,0.3);}
 .cal-ev-cumple{color:var(--cr);}
 
-/* Mate */
-.mate-wrap{margin:0 auto 20px;width:56px;height:68px;display:block;}
-.mate-svg{width:56px;height:68px;filter:drop-shadow(0 0 8px rgba(3,76,54,0.6));transition:filter 0.3s;}
-.mate-svg:hover{filter:drop-shadow(0 0 14px rgba(227,184,184,0.4));}
-
 /* Footer */
 footer{text-align:center;padding:30px 0 16px;border-top:1px solid rgba(189,205,207,0.07);margin-top:40px;}
 footer p{font-size:11px;font-weight:300;letter-spacing:0.15em;color:var(--cs);opacity:0.35;line-height:2;}
-
-/* Splash */
-#splash{position:fixed;top:0;left:0;width:100%;height:100%;background:#001a12;z-index:99999;display:flex;align-items:center;justify-content:center;overflow:hidden;}
-#splash-logo{width:90vw;max-width:90vw;height:auto;opacity:0;transform:scale(0.9);transition:opacity 1s ease,transform 1s ease;position:relative;z-index:2;}
-#splash-pts{position:absolute;inset:0;pointer-events:none;z-index:1;}
-@keyframes pt{0%{opacity:1;transform:translate(0,0) scale(1);}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0);}}
 </style>
 </head>
 <body>
-<!-- PANTALLA DE BIENVENIDA -->
+
 <div id="splash">
   <img id="splash-logo" src="https://i.imgur.com/wmUIuHk.jpeg" alt="GID">
   <div id="splash-pts"></div>
 </div>
 
-
 <div class="app">
-
 <header>
   <div class="mate-wrap">
     <a id="mate-wa" href="#" target="_blank" rel="noopener">
@@ -206,54 +209,81 @@ footer p{font-size:11px;font-weight:300;letter-spacing:0.15em;color:var(--cs);op
 <div id="panel"></div>
 
 <footer>
-  <img src="https://i.imgur.com/wmUIuHk.jpeg" alt="GID" style="width:70px;opacity:0.7;margin-bottom:12px;">
+  <img src="https://i.imgur.com/wmUIuHk.jpeg" alt="GID" style="width:70px;opacity:0.6;margin-bottom:12px;display:block;margin-left:auto;margin-right:auto;">
   <p>G.I.D. — Gestor de Información Departamental</p>
   <p style="margin-top:6px;font-size:10px;opacity:0.5;">para el Bienestar Digital Docente</p>
   <p style="margin-top:10px;font-size:10px;color:var(--sa);opacity:0.6;">Diseñado por Mar Armin</p>
   <p style="margin-top:4px;"><a href="#" style="font-size:10px;color:var(--cs);opacity:0.4;text-decoration:none;">Avisos Legales</a></p>
 </footer>
-
 </div>
+
 <script>
 var SHEET_ID = '17sj1cY1PWxtax-ejWp5-tsRf7iSAUVqMAmFdaPbm6q8';
 var API_KEY = 'AIzaSyAYKvaEhqJL8oa5szOJ0p-du7Mw8Chn3Tk';
 var cache = {};
-var SHEET_PUB_ID = '2PACX-1vQvKzpCUkWuBJYYAs6Rzf2lt0UQgwmDT3vFhzzHzMQbDWSPIO8FcAJyMhAUHQUCNP3_c-JYgPTyp9eJ';
 var seccionActiva = null;
 var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
+// ── SPLASH ──
+(function(){
+  var splash = document.getElementById("splash");
+  var logo = document.getElementById("splash-logo");
+  var pts = document.getElementById("splash-pts");
+  setTimeout(function(){ logo.style.opacity="1"; logo.style.transform="scale(1)"; }, 200);
+  setTimeout(function(){
+    for(var i=0;i<35;i++){
+      var p = document.createElement("div");
+      var sz = (Math.random()*3+1).toFixed(1);
+      var tx = ((Math.random()-0.5)*300).toFixed(0)+"px";
+      var ty = ((Math.random()-0.5)*300).toFixed(0)+"px";
+      var dl = (Math.random()*0.5).toFixed(2)+"s";
+      var col = Math.random()>0.5 ? "#034C36" : "#E3B8B8";
+      p.style.cssText = "position:absolute;border-radius:50%;width:"+sz+"px;height:"+sz+"px;background:"+col+";left:"+Math.round(Math.random()*100)+"%;top:"+Math.round(Math.random()*100)+"%;--tx:"+tx+";--ty:"+ty+";animation:pt 0.7s "+dl+" forwards;";
+      pts.appendChild(p);
+    }
+    logo.style.transition="all 0.7s";
+    logo.style.opacity="0";
+    logo.style.transform="scale(1.3)";
+    setTimeout(function(){
+      splash.style.transition="opacity 0.4s";
+      splash.style.opacity="0";
+      setTimeout(function(){ splash.style.display="none"; }, 450);
+    }, 600);
+  }, 2500);
+})();
 
+// ── MATE WHATSAPP ──
+(function(){
+  var depto = document.getElementById("h-depto");
+  var nombre = depto ? depto.textContent.trim() : "el Departamento";
+  var msg = encodeURIComponent("Tenemos novedades en " + nombre + "\nhttps://teal-lokum-07d15a.netlify.app");
+  var link = document.getElementById("mate-wa");
+  if(link) link.href = "https://wa.me/?text=" + msg;
+})();
 
-
-
-
-
+// ── LEER SHEETS ──
 function formatFecha(v){
   if(!v) return '';
   var s = String(v);
   if(s.indexOf('/')>-1) return s;
-  // Por si llega como objeto Date de JS
-  var d = new Date(v);
-  if(!isNaN(d.getTime())) return d.getDate()+'/'+(d.getMonth()+1);
   return s;
 }
 
 function leerHoja(hoja, callback){
   if(cache[hoja]){ callback(cache[hoja]); return; }
   var range = encodeURIComponent(hoja+'!A:F');
-  var url = 'https://sheets.googleapis.com/v4/spreadsheets/'+SHEET_ID+
-    '/values/'+range+'?key='+API_KEY;
+  var url = 'https://sheets.googleapis.com/v4/spreadsheets/'+SHEET_ID+'/values/'+range+'?key='+API_KEY;
   fetch(url)
     .then(function(r){ return r.json(); })
     .then(function(data){
-      var rows = (data.values || []).slice(1); // saltar encabezados
+      var rows = (data.values || []).slice(1);
       cache[hoja] = rows;
       callback(rows);
     })
     .catch(function(){ callback([]); });
 }
 
-// ── ABRIR SECCIÓN ──
+// ── ABRIR ──
 function abrir(nombre, btn){
   if(seccionActiva===nombre){cerrar();return;}
   seccionActiva=nombre;
@@ -269,19 +299,23 @@ function abrir(nombre, btn){
   });
 }
 
+function panelHeader(nombre){
+  return '<div class="panel-header"><span class="panel-titulo">'+nombre+'</span><button class="panel-cerrar" onclick="cerrar()">×</button></div>';
+}
+function cerrar(){
+  seccionActiva=null;
+  document.querySelectorAll('.boton').forEach(function(b){b.classList.remove('activo');});
+  document.getElementById('panel').innerHTML='';
+}
+
 // ── RENDER PANEL ──
 function renderPanel(nombre, rows){
   var html = panelHeader(nombre);
-  // Saltar fila de encabezados (fila 1)
-  var datos = rows.filter(function(f,i){
-    if(i===0) return false; // encabezado
-    return f[2]||f[3]||f[4];
-  });
-  if(!datos||datos.length===0){html+='<div class="estado">Sin contenido aún.</div>';}
-  else {
+  if(!rows||rows.length===0){html+='<div class="estado">Sin contenido aún.</div>';}
+  else{
     var cardIdx=0;
-    datos.forEach(function(f, i){
-      var titulo=f[2]||'', texto=f[3]||'', link=f[4]||'', fecha=formatFecha(f[1])||'';
+    rows.forEach(function(f,i){
+      var titulo=f[2]||'',texto=f[3]||'',link=f[4]||'',fecha=formatFecha(f[1])||'';
       if(!titulo&&!texto&&!link) return;
       var cid=nombre.replace(/ /g,'_')+'_'+cardIdx;
       html+="<div class='card'>";
@@ -293,16 +327,15 @@ function renderPanel(nombre, rows){
         if(ls.indexOf('uc?id')>-1) html+="<img src='"+ls+"' loading='lazy'>";
         else if(ls.indexOf('http')===0) html+="<a class='card-link' href='"+ls+"' target='_blank'>↗ Abrir enlace</a>";
       }
-      html+="<button class='btn-comentarios' id='btn-com-"+cid+"' onclick='toggleComentarios(\""+cid+"\",\""+nombre+"\","+i+")'>💬 comentarios</button>";
+      html+="<button class='btn-comentarios' onclick='toggleComentarios(\""+cid+"\",\""+nombre+"\","+i+")'>💬 comentarios</button>";
       html+="<div class='comentarios-panel' id='cpanel-"+cid+"'>";
-      html+="<div class='coms-lista' id='coms-"+cid+"'></div>";
+      html+="<div id='coms-"+cid+"'></div>";
       html+="<div class='comentario-form'>";
       html+="<input type='text' placeholder='Tu nombre *' id='cnombre-"+cid+"'>";
       html+="<textarea placeholder='Comentario (opcional)...' id='ctexto-"+cid+"'></textarea>";
       html+="<button class='btn-enviar-com' onclick='enviarComentario(\""+cid+"\",\""+nombre+"\","+i+")'>Enviar</button>";
       html+="<div style='font-size:12px;margin-top:6px;color:var(--sa)' id='cmsg-"+cid+"'></div>";
-      html+="</div></div>";
-      html+="</div>";
+      html+="</div></div></div>";
       cardIdx++;
     });
     if(cardIdx===0) html+='<div class="estado">Sin contenido aún.</div>';
@@ -314,17 +347,15 @@ function renderPanel(nombre, rows){
 // ── RENDER CUMPLEAÑOS ──
 function renderCumpleanos(rows){
   var html=panelHeader('Cumpleaños');
-  if(!rows||rows.length===0){html+='<div class="estado">Sin cumpleaños cargados.</div>';}
-  else {
-    var datoscumple=rows.filter(function(f,i){return i>0&&f[2];});
-    datoscumple.forEach(function(f){
-      var nombre=f[2]||'', fecha=f[1]||'', foto=f[4]||'';
-      if(!nombre) return;
-      var fechaStr=formatFecha(fecha);
+  var datos=(rows||[]).filter(function(f){return f[2];});
+  if(!datos.length){html+='<div class="estado">Sin cumpleaños cargados.</div>';}
+  else{
+    datos.forEach(function(f){
+      var nombre=f[2]||'',fecha=formatFecha(f[1]||''),foto=f[4]||'';
       html+="<div class='card'><div class='card-cumple'>";
-      if(foto&&foto.toString().indexOf('drive.google.com')>-1) html+="<img class='card-cumple-foto' src='"+foto+"'>";
+      if(foto&&foto.indexOf('drive.google.com')>-1) html+="<img class='card-cumple-foto' src='"+foto+"'>";
       else html+="<div class='card-cumple-avatar'>🎂</div>";
-      html+="<div><div class='card-cumple-nombre'>"+nombre+"</div><div class='card-cumple-fecha'>📅 "+fechaStr+"</div></div>";
+      html+="<div><div class='card-cumple-nombre'>"+nombre+"</div><div class='card-cumple-fecha'>📅 "+fecha+"</div></div>";
       html+="</div></div>";
     });
   }
@@ -336,17 +367,16 @@ function renderCumpleanos(rows){
 function renderTrayecto(nombre, rows){
   var titulo=nombre.indexOf('TURISMO')>-1?'Turismo':'Economía';
   var html=panelHeader(titulo);
-  if(!rows||rows.length===0){html+='<div class="estado">Sin datos aún.</div>';}
-  else {
+  var datos=(rows||[]).filter(function(f){return f[0];});
+  if(!datos.length){html+='<div class="estado">Sin datos aún.</div>';}
+  else{
     html+='<div class="card" style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:14px;">';
     html+='<tr style="border-bottom:1px solid rgba(189,205,207,0.15)">';
     ['Curso','Hs','Profesor','Fecha','Tema'].forEach(function(h){
       html+='<th style="text-align:left;padding:8px;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--cs);font-weight:400;">'+h+'</th>';
     });
     html+='</tr>';
-    var datostray=rows.filter(function(f,i){return i>0&&f[0];});
-    datostray.forEach(function(f){
-      if(!f[0]) return;
+    datos.forEach(function(f){
       var hs=parseFloat(f[3])||0;
       html+='<tr style="border-bottom:1px solid rgba(189,205,207,0.07)">';
       html+='<td style="padding:10px 8px;font-weight:500;">'+f[0]+'</td>';
@@ -364,25 +394,20 @@ function renderTrayecto(nombre, rows){
 
 // ── CALENDARIO ──
 function renderCalendario(rows){
-  var hoy=new Date();
-  var mes=hoy.getMonth(), anio=hoy.getFullYear();
+  var hoy=new Date(),mes=hoy.getMonth(),anio=hoy.getFullYear();
   var eventos=[];
   (rows||[]).forEach(function(f){
     if(!f[2]) return;
-    var fecha=f[1]||'';
-    var fechaObj=null;
-    var fs=formatFecha(fecha);
-    if(fs){var p=fs.split('/');if(p.length===2) fechaObj=new Date(anio,parseInt(p[1])-1,parseInt(p[0]));}
+    var fs=formatFecha(f[1]||''),fechaObj=null;
+    if(fs){var p=fs.split('/');if(p.length>=2) fechaObj=new Date(anio,parseInt(p[1])-1,parseInt(p[0]));}
     eventos.push({fecha:fechaObj,titulo:f[2]||'',desc:f[3]||'',link:f[4]||'',tipo:'evento'});
   });
   window._calEventos=eventos;
-  // Cargar cumpleaños
   leerHoja('CUMPLEAÑOS',function(crows){
     (crows||[]).forEach(function(f){
       var nombre=f[2]||'';if(!nombre)return;
-      var fs=formatFecha(f[1]||'');
-      var fechaObj=null;
-      if(fs){var p=fs.split('/');if(p.length===2) fechaObj=new Date(new Date().getFullYear(),parseInt(p[1])-1,parseInt(p[0]));}
+      var fs=formatFecha(f[1]||''),fechaObj=null;
+      if(fs){var p=fs.split('/');if(p.length>=2) fechaObj=new Date(anio,parseInt(p[1])-1,parseInt(p[0]));}
       if(fechaObj) window._calEventos.push({fecha:fechaObj,titulo:'🎂 '+nombre,desc:'',link:'',tipo:'cumple'});
     });
     _renderCal(mes,anio);
@@ -393,7 +418,6 @@ function _renderCal(mes,anio){
   var hoy=new Date();
   var primerDia=new Date(anio,mes,1).getDay();
   var diasEnMes=new Date(anio,mes+1,0).getDate();
-  var dn=['D','L','M','M','J','V','S'];
   var evDias={},cumDias={};
   (window._calEventos||[]).forEach(function(ev){
     if(ev.fecha&&ev.fecha.getMonth()===mes&&ev.fecha.getFullYear()===anio){
@@ -406,8 +430,8 @@ function _renderCal(mes,anio){
   html+='<span class="cal-mes-label">'+MESES[mes]+' '+anio+'</span>';
   html+='<button class="cal-nav-btn" onclick="_calNav(1)">›</button></div>';
   html+='<div class="cal-grid">';
-  dn.forEach(function(d){html+='<div class="cal-dn">'+d+'</div>';});
-  for(var i=0;i<primerDia;i++) html+='<div style="opacity:0"></div>';
+  ['D','L','M','M','J','V','S'].forEach(function(d){html+='<div class="cal-dn">'+d+'</div>';});
+  for(var i=0;i<primerDia;i++) html+='<div></div>';
   for(var d=1;d<=diasEnMes;d++){
     var cls='cal-d';
     if(d===hoy.getDate()&&mes===hoy.getMonth()&&anio===hoy.getFullYear()) cls+=' hoy';
@@ -438,31 +462,22 @@ function _renderCal(mes,anio){
 }
 window._calNav=function(d){var m=(window._calMes||0)+d,a=window._calAnio||new Date().getFullYear();if(m>11){m=0;a++;}if(m<0){m=11;a--;}_renderCal(m,a);};
 
-// ── COMENTARIOS (via google.script.run) ──
+// ── COMENTARIOS ──
 function toggleComentarios(cid,seccion,idx){
   var panel=document.getElementById('cpanel-'+cid);
-  var btn=document.getElementById('btn-com-'+cid);
   if(!panel) return;
   if(panel.style.display==='block'){panel.style.display='none';return;}
   panel.style.display='block';
   var lista=document.getElementById('coms-'+cid);
-  lista.innerHTML='<div style="font-size:12px;color:var(--cs);opacity:0.4;padding:8px 0">Cargando comentarios...</div>';
+  lista.innerHTML='<div style="font-size:12px;color:var(--cs);opacity:0.4;padding:8px 0">Cargando...</div>';
   google.script.run
     .withSuccessHandler(function(coms){
-      if(!coms||coms.length===0){
-        lista.innerHTML='<div style="font-size:13px;color:var(--cs);opacity:0.4;padding:8px 0">Sin comentarios aún.</div>';
-        if(btn) btn.textContent='💬 comentarios (0)';return;
-      }
+      if(!coms||!coms.length){lista.innerHTML='<div style="font-size:13px;color:var(--cs);opacity:0.4;padding:8px 0">Sin comentarios aún.</div>';return;}
       var h='';
-      coms.forEach(function(c){
-        h+="<div class='comentario-item'><div class='comentario-nombre'>"+(c[0]||'')+"</div>";
-        h+="<div class='comentario-texto'>"+(c[1]||'')+"</div>";
-        h+="<div class='comentario-fecha'>"+(c[2]||'')+"</div></div>";
-      });
+      coms.forEach(function(c){h+="<div class='comentario-item'><div class='comentario-nombre'>"+(c[0]||'')+"</div><div class='comentario-texto'>"+(c[1]||'')+"</div><div class='comentario-fecha'>"+(c[2]||'')+"</div></div>";});
       lista.innerHTML=h;
-      if(btn) btn.textContent='💬 comentarios ('+coms.length+')';
     })
-    .withFailureHandler(function(){lista.innerHTML='<div style="font-size:13px;color:var(--cs);opacity:0.4;">No se pudieron cargar.</div>';})
+    .withFailureHandler(function(){lista.innerHTML='<div style="font-size:13px;opacity:0.4;">No disponible.</div>';})
     .obtenerComentarios(seccion,idx);
 }
 
@@ -474,30 +489,17 @@ function enviarComentario(cid,seccion,idx){
   if(msg)msg.textContent='Enviando...';
   google.script.run
     .withSuccessHandler(function(ok){
-      if(ok){
-        if(msg)msg.textContent='✅ Comentario enviado.';
-        var inp=document.getElementById('ctexto-'+cid);if(inp)inp.value='';
-        setTimeout(function(){toggleComentarios(cid,seccion,idx);setTimeout(function(){toggleComentarios(cid,seccion,idx);},100);},600);
-      } else {if(msg)msg.textContent='❌ Error.';}
+      if(ok){if(msg)msg.textContent='✅ Enviado.';var inp=document.getElementById('ctexto-'+cid);if(inp)inp.value='';}
+      else{if(msg)msg.textContent='❌ Error.';}
     })
     .withFailureHandler(function(){if(msg)msg.textContent='❌ No se pudo conectar.';})
     .guardarComentario(seccion,idx,nombre,texto||'👍');
 }
 
-// ── UTILS ──
-function panelHeader(nombre){
-  return '<div class="panel-header"><span class="panel-titulo">'+nombre+'</span><button class="panel-cerrar" onclick="cerrar()">×</button></div>';
-}
-function cerrar(){
-  seccionActiva=null;
-  document.querySelectorAll('.boton').forEach(function(b){b.classList.remove('activo');});
-  document.getElementById('panel').innerHTML='';
-}
-
 // ── CARRUSEL ──
 function cargarCarrusel(){
   var secs=['NOVEDADES','MATERIALES','CALENDARIO','INDUCCION'];
-  var pend=secs.length, todas=[];
+  var pend=secs.length,todas=[];
   secs.forEach(function(sec){
     leerHoja(sec,function(rows){
       if(rows&&rows.length>0){
@@ -506,20 +508,18 @@ function cargarCarrusel(){
           if(t){todas.push({seccion:sec,titulo:t.toString(),fecha:formatFecha(rows[i][1])||''});break;}
         }
       }
-      pend--;
-      if(pend===0) renderCarrusel(todas);
+      if(--pend===0) renderCarrusel(todas);
     });
   });
 }
 
 function renderCarrusel(items){
-  if(!items||items.length===0) return;
+  if(!items||!items.length) return;
   var top=items.slice(0,3);
   var html='<div class="carrusel-wrap-outer"><div class="carrusel-label">↔ últimas novedades</div><div class="carrusel" id="carrusel-scroll">';
   top.forEach(function(item){
-    var sec=item.seccion.charAt(0)+item.seccion.slice(1).toLowerCase();
     html+='<div class="carrusel-card" onclick="abrir(\''+item.seccion+'\',null)">';
-    html+='<div class="carrusel-seccion">'+sec+'</div>';
+    html+='<div class="carrusel-seccion">'+item.seccion.charAt(0)+item.seccion.slice(1).toLowerCase()+'</div>';
     html+='<div class="carrusel-titulo">'+item.titulo+'</div>';
     if(item.fecha) html+='<div class="carrusel-fecha">'+item.fecha+'</div>';
     html+='</div>';
@@ -539,13 +539,13 @@ function irCarrusel(i){var el=document.getElementById('carrusel-scroll');if(el)e
 // ── HORAS TRAYECTO ──
 function cargarHorasTrayecto(nombre,idTotal,idParciales){
   leerHoja(nombre,function(rows){
-    if(!rows||rows.length===0) return;
+    if(!rows||!rows.length) return;
     var total=0,lineas=[];
     rows.forEach(function(f){
-      var curso=f[0]||'',hs=parseFloat(f[3])||0;
-      if(!curso) return;
+      var hs=parseFloat(f[3])||0;
+      if(!f[0]) return;
       total+=hs;
-      if(hs>0) lineas.push(curso+': '+hs+' hs');
+      if(hs>0) lineas.push(f[0]+': '+hs+' hs');
     });
     document.getElementById(idTotal).innerHTML=total+'<small>hs totales</small>';
     document.getElementById(idParciales).innerHTML=lineas.join('<br>');
@@ -560,15 +560,10 @@ function marcarTitilantes(){
     leerHoja(sec,function(rows){
       var maxF=null;
       (rows||[]).forEach(function(f){
-        var v=f[5];
-        if(v){
-          var d=new Date(v);
-          if(!isNaN(d)&&(!maxF||d>maxF)) maxF=d;
-        }
+        if(f[5]){var d=new Date(f[5]);if(!isNaN(d)&&(!maxF||d>maxF)) maxF=d;}
       });
       if(maxF) fechas.push({seccion:sec,fecha:maxF});
-      pend--;
-      if(pend===0){
+      if(--pend===0){
         fechas.sort(function(a,b){return b.fecha-a.fecha;});
         var top2=fechas.slice(0,2).map(function(x){return x.seccion;});
         document.querySelectorAll('.boton').forEach(function(b){
@@ -580,64 +575,11 @@ function marcarTitilantes(){
   });
 }
 
-// ── SPLASH ──
-(function(){
-  var splash = document.getElementById("splash");
-  var logo = document.getElementById("splash-logo");
-  var pts = document.getElementById("splash-pts");
-  if(!splash) return;
-  
-  // Aparecer logo
-  setTimeout(function(){ 
-    logo.style.opacity = "1"; 
-    logo.style.transform = "scale(1)"; 
-  }, 200);
-  
-  // Desintegrar a los 2.5s
-  setTimeout(function(){
-    // Partículas
-    for(var i=0;i<35;i++){
-      var p = document.createElement("div");
-      var sz = (Math.random()*3+1).toFixed(1);
-      var tx = ((Math.random()-0.5)*300).toFixed(0)+"px";
-      var ty = ((Math.random()-0.5)*300).toFixed(0)+"px";
-      var dl = (Math.random()*0.5).toFixed(2)+"s";
-      var col = Math.random()>0.5 ? "#034C36" : "#E3B8B8";
-      p.style.cssText = "position:absolute;border-radius:50%;width:"+sz+"px;height:"+sz+"px;"+
-        "background:"+col+";left:"+Math.round(Math.random()*100)+"%;top:"+Math.round(Math.random()*100)+"%;"+
-        "--tx:"+tx+";--ty:"+ty+";animation:pt 0.7s "+dl+" forwards;";
-      pts.appendChild(p);
-    }
-    // Desvanecer logo
-    logo.style.transition = "all 0.7s";
-    logo.style.opacity = "0";
-    logo.style.transform = "scale(1.3)";
-    // Ocultar splash
-    setTimeout(function(){
-      splash.style.transition = "opacity 0.4s";
-      splash.style.opacity = "0";
-      setTimeout(function(){ splash.style.display = "none"; }, 450);
-    }, 600);
-  }, 2500);
-})();
-
-// ── MATE WHATSAPP ──
-(function(){
-  var depto = document.getElementById('h-depto');
-  var nombre = depto ? depto.textContent.trim() : 'el Departamento';
-  var msg = encodeURIComponent('Tenemos novedades en ' + nombre + '
-https://teal-lokum-07d15a.netlify.app');
-  var link = document.getElementById('mate-wa');
-  if(link) link.href = 'https://wa.me/?text=' + msg;
-})();
-
 // ── INICIO ──
 cargarCarrusel();
 cargarHorasTrayecto('TRAYECTO TURISMO','htur','htur-parciales');
 cargarHorasTrayecto('TRAYECTO ECONOMIA','heco','heco-parciales');
 marcarTitilantes();
-
-// Cumpleaños mañana
 leerHoja('CUMPLEAÑOS',function(rows){
   var manana=new Date();manana.setDate(manana.getDate()+1);
   var dm=manana.getDate()+'/'+(manana.getMonth()+1);

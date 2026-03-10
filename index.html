@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -182,46 +183,17 @@ footer p{font-size:11px;font-weight:300;letter-spacing:0.15em;color:var(--cs);op
 </div>
 <script>
 var SHEET_ID = '17sj1cY1PWxtax-ejWp5-tsRf7iSAUVqMAmFdaPbm6q8';
+var APPS_URL = 'https://script.google.com/macros/s/AKfycbzxafN5qjVBMI1Mffw9tDl3bhGUth1qQukPaWTt-LfTCXll5xtgwfeqW2urV7kQJD-L/exec';
 var SHEET_PUB_ID = '2PACX-1vQvKzpCUkWuBJYYAs6Rzf2lt0UQgwmDT3vFhzzHzMQbDWSPIO8FcAJyMhAUHQUCNP3_c-JYgPTyp9eJ';
 var seccionActiva = null;
 var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 var cache = {};
 
-function sheetUrl(hoja){
-  return 'https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:json&sheet='+encodeURIComponent(hoja)+'&headers=0';
-}
 
-function leerHoja(hoja, callback){
-  if(cache[hoja]){ callback(cache[hoja]); return; }
-  var url = 'https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent(hoja);
-  fetch(url)
-    .then(function(r){ return r.text(); })
-    .then(function(csv){
-      var rows = parseCsv(csv);
-      cache[hoja] = rows;
-      callback(rows);
-    })
-    .catch(function(e){ console.error('Error cargando '+hoja, e); callback([]); });
-}
 
-function parseCsv(csv){
-  var lines = csv.split('\n');
-  var rows = [];
-  lines.forEach(function(line){
-    if(!line.trim()) return;
-    var cols = [];
-    var inQ = false, cur = '';
-    for(var i=0;i<line.length;i++){
-      var c = line[i];
-      if(c==='"'){ inQ=!inQ; }
-      else if(c===','&&!inQ){ cols.push(cur.trim()); cur=''; }
-      else { cur+=c; }
-    }
-    cols.push(cur.trim());
-    rows.push(cols);
-  });
-  return rows.filter(function(r){ return r.some(function(c){ return c; }); });
-}
+
+
+
 
 function formatFecha(v){
   if(!v) return '';
@@ -231,6 +203,22 @@ function formatFecha(v){
   var d = new Date(v);
   if(!isNaN(d.getTime())) return d.getDate()+'/'+(d.getMonth()+1);
   return s;
+}
+
+function leerHoja(hoja, callback){
+  if(cache[hoja]){ callback(cache[hoja]); return; }
+  var url = APPS_URL + '?v=datos&hoja=' + encodeURIComponent(hoja);
+  fetch(url)
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      var rows = data.datos || [];
+      cache[hoja] = rows;
+      callback(rows);
+    })
+    .catch(function(e){ 
+      console.error('Error cargando '+hoja, e); 
+      callback([]); 
+    });
 }
 
 // ── ABRIR SECCIÓN ──
@@ -559,17 +547,6 @@ function marcarTitilantes(){
     });
   });
 }
-
-// ── DEBUG ──
-leerHoja('NOVEDADES', function(rows){
-  var d = document.createElement('div');
-  d.style.cssText = 'background:rgba(255,255,255,0.1);padding:12px;border-radius:8px;margin:10px 0;font-size:11px;word-break:break-all;color:#fff;';
-  d.innerHTML = '<strong>DEBUG NOVEDADES:</strong><br>Filas totales: '+rows.length+'<br>';
-  if(rows.length>0) d.innerHTML += 'Fila 0: '+JSON.stringify(rows[0])+'<br>';
-  if(rows.length>1) d.innerHTML += 'Fila 1: '+JSON.stringify(rows[1])+'<br>';
-  if(rows.length>2) d.innerHTML += 'Fila 2: '+JSON.stringify(rows[2]);
-  document.querySelector('.app').insertBefore(d, document.getElementById('cumple-banner'));
-});
 
 // ── INICIO ──
 cargarCarrusel();

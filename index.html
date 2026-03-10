@@ -46,19 +46,37 @@ header{padding:36px 0 24px;text-align:center;}
 /* Banner cumple */
 #cumple-banner{display:none;margin:10px auto;padding:12px 16px;background:rgba(227,184,184,0.12);border:1px solid rgba(227,184,184,0.25);border-radius:12px;font-size:14px;color:var(--sa);text-align:center;}
 
-/* Carrusel */
-.carrusel-wrap-outer{margin-bottom:28px;}
-.carrusel-label{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--cs);opacity:0.4;margin-bottom:12px;text-align:center;}
-.carrusel{overflow-x:auto;display:flex;gap:12px;padding:4px 4px 12px;scrollbar-width:none;scroll-snap-type:x mandatory;}
-.carrusel::-webkit-scrollbar{display:none;}
-.carrusel-card{min-width:calc(100% - 32px);max-width:calc(100% - 32px);background:rgba(255,255,255,0.05);border:1px solid rgba(189,205,207,0.15);border-radius:16px;padding:20px;flex-shrink:0;cursor:pointer;scroll-snap-align:start;position:relative;overflow:hidden;}
-.carrusel-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--vp),transparent);opacity:0.8;}
-.carrusel-seccion{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--sa);opacity:0.8;margin-bottom:8px;}
-.carrusel-titulo{font-size:15px;font-weight:300;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.carrusel-fecha{font-size:11px;color:var(--cs);opacity:0.5;margin-top:8px;}
-.carrusel-dots{display:flex;justify-content:center;gap:6px;margin-top:10px;}
-.carrusel-dot{width:6px;height:6px;border-radius:50%;background:rgba(189,205,207,0.2);transition:all 0.3s;cursor:pointer;}
-.carrusel-dot.activo{background:var(--sa);width:18px;border-radius:3px;}
+/* Carrusel — Stack 3D */
+.carrusel-wrap-outer{margin-bottom:32px;position:relative;}
+.carrusel-label{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--cs);opacity:0.35;margin-bottom:20px;text-align:center;}
+.stack-container{position:relative;height:140px;margin:0 auto;cursor:pointer;user-select:none;}
+.stack-card{
+  position:absolute;left:0;right:0;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(189,205,207,0.12);
+  border-radius:18px;padding:20px 22px;
+  transition:all 0.45s cubic-bezier(0.34,1.56,0.64,1);
+  will-change:transform,opacity;
+  overflow:hidden;
+}
+.stack-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--sa),transparent);opacity:0;}
+.stack-card.pos-0{
+  transform:translateY(0) scale(1);
+  opacity:1;z-index:3;
+  background:rgba(3,76,54,0.18);
+  border-color:rgba(227,184,184,0.2);
+}
+.stack-card.pos-0::before{opacity:1;}
+.stack-card.pos-1{transform:translateY(12px) scale(0.95);opacity:0.6;z-index:2;}
+.stack-card.pos-2{transform:translateY(22px) scale(0.90);opacity:0.3;z-index:1;}
+.stack-card.pos-out{transform:translateY(-60px) scale(1.05);opacity:0;z-index:4;}
+.carrusel-seccion{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--sa);margin-bottom:8px;display:block;}
+.carrusel-titulo{font-size:16px;font-weight:300;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.carrusel-fecha{font-size:11px;color:var(--cs);opacity:0.45;margin-top:10px;display:block;}
+.stack-hint{text-align:center;margin-top:8px;font-size:10px;color:var(--cs);opacity:0.25;letter-spacing:0.1em;}
+.stack-dots{display:flex;justify-content:center;gap:5px;margin-top:12px;}
+.stack-dot{width:5px;height:5px;border-radius:50%;background:rgba(189,205,207,0.2);transition:all 0.3s;}
+.stack-dot.activo{background:var(--sa);transform:scale(1.3);}
 
 /* Menú */
 .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
@@ -156,27 +174,29 @@ footer p{font-size:11px;font-weight:300;letter-spacing:0.15em;color:var(--cs);op
   <div class="mate-wrap">
     <a id="mate-wa" href="#" target="_blank" rel="noopener">
     <svg viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg" class="mate-svg">
-      <!-- Vapor -->
-      <path d="M40 38 Q37 28 40 18 Q43 8 40 0" stroke="#BDCDCF" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5">
-        <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2s" repeatCount="indefinite"/>
-        <animate attributeName="d" values="M40 38 Q37 28 40 18 Q43 8 40 0;M40 38 Q43 28 40 18 Q37 8 40 0;M40 38 Q37 28 40 18 Q43 8 40 0" dur="2s" repeatCount="indefinite"/>
+      <!-- Vapor izq -->
+      <path d="M42 44 C39 36 43 28 40 20 C37 12 41 6 39 0" stroke="#BDCDCF" stroke-width="1.8" stroke-linecap="round" fill="none">
+        <animate attributeName="opacity" values="0.6;0;0.6" dur="2.2s" repeatCount="indefinite"/>
       </path>
-      <path d="M50 36 Q47 26 50 16 Q53 6 50 -2" stroke="#BDCDCF" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.4">
-        <animate attributeName="opacity" values="0.4;0.05;0.4" dur="2.5s" repeatCount="indefinite"/>
-        <animate attributeName="d" values="M50 36 Q47 26 50 16 Q53 6 50 -2;M50 36 Q53 26 50 16 Q47 6 50 -2;M50 36 Q47 26 50 16 Q53 6 50 -2" dur="2.5s" repeatCount="indefinite"/>
+      <!-- Vapor centro -->
+      <path d="M50 42 C53 34 47 26 50 18 C53 10 47 4 50 -2" stroke="#BDCDCF" stroke-width="1.8" stroke-linecap="round" fill="none">
+        <animate attributeName="opacity" values="0.5;0;0.5" dur="1.8s" begin="0.3s" repeatCount="indefinite"/>
       </path>
-      <path d="M60 38 Q63 28 60 18 Q57 8 60 0" stroke="#BDCDCF" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.3">
-        <animate attributeName="opacity" values="0.3;0.05;0.3" dur="1.8s" repeatCount="indefinite"/>
-        <animate attributeName="d" values="M60 38 Q63 28 60 18 Q57 8 60 0;M60 38 Q57 28 60 18 Q63 8 60 0;M60 38 Q63 28 60 18 Q57 8 60 0" dur="1.8s" repeatCount="indefinite"/>
+      <!-- Vapor der -->
+      <path d="M58 44 C61 36 57 28 60 20 C63 12 59 6 61 0" stroke="#BDCDCF" stroke-width="1.8" stroke-linecap="round" fill="none">
+        <animate attributeName="opacity" values="0.4;0;0.4" dur="2.5s" begin="0.6s" repeatCount="indefinite"/>
       </path>
-      <!-- Mate -->
-      <ellipse cx="50" cy="90" rx="30" ry="34" fill="#034C36" stroke="#BDCDCF" stroke-width="1.5"/>
-      <rect x="35" y="56" width="30" height="11" rx="5.5" fill="#BDCDCF" opacity="0.5"/>
+      <!-- Cuerpo mate -->
+      <path d="M22 68 C20 88 28 118 50 120 C72 118 80 88 78 68 Z" fill="#034C36" stroke="#BDCDCF" stroke-width="1.5"/>
+      <!-- Boca -->
+      <rect x="32" y="54" width="36" height="16" rx="8" fill="#023D2A" stroke="#BDCDCF" stroke-width="1.2"/>
       <!-- Bombilla -->
-      <line x1="50" y1="56" x2="50" y2="36" stroke="#BDCDCF" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M56 80 Q65 74 72 80 Q65 86 56 80Z" fill="#BDCDCF" opacity="0.25"/>
-      <rect x="78" y="82" width="14" height="7" rx="3.5" fill="#BDCDCF" opacity="0.35"/>
-      <ellipse cx="50" cy="74" rx="18" ry="4" fill="#F2E0DF" opacity="0.07"/>
+      <line x1="50" y1="62" x2="52" y2="30" stroke="#BDCDCF" stroke-width="2.2" stroke-linecap="round"/>
+      <ellipse cx="52" cy="28" rx="4" ry="3" fill="#BDCDCF" opacity="0.7"/>
+      <!-- Asa -->
+      <path d="M78 76 Q92 76 92 88 Q92 100 78 100" stroke="#BDCDCF" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Brillo -->
+      <ellipse cx="38" cy="82" rx="6" ry="10" fill="white" opacity="0.05" transform="rotate(-15 38 82)"/>
     </svg>
     </a>
   </div>
@@ -363,7 +383,11 @@ function renderCumpleanos(rows){
     datos.forEach(function(f){
       var nombre=f[2]||'',fecha=formatFecha(f[1]||''),foto=f[4]||'';
       html+="<div class='card'><div class='card-cumple'>";
-      if(foto&&foto.indexOf('drive.google.com')>-1) html+="<img class='card-cumple-foto' src='"+foto+"'>";
+      if(foto&&foto.indexOf('drive.google.com')>-1){
+        var fotoId = foto.match(/[-\w]{25,}/);
+        var fotoSrc = fotoId ? 'https://drive.google.com/uc?export=view&id='+fotoId[0] : foto;
+        html+="<img class='card-cumple-foto' src='"+fotoSrc+"' onerror=\"this.style.display='none'\">";
+      }
       else html+="<div class='card-cumple-avatar'>🎂</div>";
       html+="<div><div class='card-cumple-nombre'>"+nombre+"</div><div class='card-cumple-fecha'>📅 "+fecha+"</div></div>";
       html+="</div></div>";
@@ -525,26 +549,57 @@ function cargarCarrusel(){
 
 function renderCarrusel(items){
   if(!items||!items.length) return;
-  var top=items.slice(0,3);
-  var html='<div class="carrusel-wrap-outer"><div class="carrusel-label">↔ últimas novedades</div><div class="carrusel" id="carrusel-scroll">';
-  top.forEach(function(item){
-    html+='<div class="carrusel-card" onclick="abrir(\''+item.seccion+'\',null)">';
-    html+='<div class="carrusel-seccion">'+item.seccion.charAt(0)+item.seccion.slice(1).toLowerCase()+'</div>';
-    html+='<div class="carrusel-titulo">'+item.titulo+'</div>';
-    if(item.fecha) html+='<div class="carrusel-fecha">'+item.fecha+'</div>';
-    html+='</div>';
-  });
-  html+='</div><div class="carrusel-dots" id="carrusel-dots">';
-  top.forEach(function(_,i){html+='<div class="carrusel-dot'+(i===0?' activo':'')+'" onclick="irCarrusel('+i+')"></div>';});
-  html+='</div></div>';
-  document.getElementById('carrusel-wrap').innerHTML=html;
-  var el=document.getElementById('carrusel-scroll');
-  if(el) el.addEventListener('scroll',function(){
-    var idx=Math.round(el.scrollLeft/el.offsetWidth);
-    document.querySelectorAll('.carrusel-dot').forEach(function(d,i){d.classList.toggle('activo',i===idx);});
-  });
+  var top = items.slice(0,3);
+  var cur = 0;
+  
+  function buildHtml(){
+    var html = '<div class="carrusel-wrap-outer"><div class="carrusel-label">últimas novedades</div>';
+    html += '<div class="stack-container" id="stack-cont" onclick="stackNext()">';
+    top.forEach(function(item, i){
+      var pos = i; // 0=frente, 1=medio, 2=atrás
+      html += '<div class="stack-card pos-'+pos+'" id="scard-'+i+'">';
+      html += '<span class="carrusel-seccion">'+item.seccion.charAt(0)+item.seccion.slice(1).toLowerCase()+'</span>';
+      html += '<div class="carrusel-titulo">'+item.titulo+'</div>';
+      if(item.fecha) html += '<span class="carrusel-fecha">'+item.fecha+'</span>';
+      html += '</div>';
+    });
+    html += '</div>';
+    html += '<div class="stack-hint">toca para ver más</div>';
+    html += '<div class="stack-dots">';
+    top.forEach(function(_,i){html += '<div class="stack-dot'+(i===0?' activo':'')+'" id="sdot-'+i+'"></div>';});
+    html += '</div></div>';
+    return html;
+  }
+  
+  document.getElementById('carrusel-wrap').innerHTML = buildHtml();
+  
+  window.stackNext = function(){
+    var n = top.length;
+    var cards = document.querySelectorAll('.stack-card');
+    var dots = document.querySelectorAll('.stack-dot');
+    // Animar card del frente: sale volando arriba
+    var front = document.getElementById('scard-'+cur);
+    if(front){
+      front.classList.remove('pos-0');
+      front.classList.add('pos-out');
+    }
+    setTimeout(function(){
+      // Rotar posiciones
+      cur = (cur+1) % n;
+      cards.forEach(function(card, i){
+        card.className = 'stack-card';
+        var idx = parseInt(card.id.split('-')[1]);
+        var rel = ((idx - cur) + n) % n;
+        if(rel < 3) card.classList.add('pos-'+rel);
+        else card.style.opacity = '0';
+      });
+      dots.forEach(function(d,i){
+        d.classList.toggle('activo', i===cur);
+      });
+    }, 200);
+  };
 }
-function irCarrusel(i){var el=document.getElementById('carrusel-scroll');if(el)el.scrollTo({left:i*el.offsetWidth,behavior:'smooth'});}
+function irCarrusel(i){}
 
 // ── HORAS TRAYECTO ──
 function cargarHorasTrayecto(nombre,idTotal,idParciales){

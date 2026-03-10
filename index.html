@@ -253,10 +253,15 @@ function abrir(nombre, btn){
 // ── RENDER PANEL ──
 function renderPanel(nombre, rows){
   var html = panelHeader(nombre);
-  if(!rows||rows.length===0){html+='<div class="estado">Sin contenido aún.</div>';}
+  // Saltar fila de encabezados (fila 1)
+  var datos = rows.filter(function(f,i){
+    if(i===0) return false; // encabezado
+    return f[2]||f[3]||f[4];
+  });
+  if(!datos||datos.length===0){html+='<div class="estado">Sin contenido aún.</div>';}
   else {
     var cardIdx=0;
-    rows.forEach(function(f, i){
+    datos.forEach(function(f, i){
       var titulo=f[2]||'', texto=f[3]||'', link=f[4]||'', fecha=formatFecha(f[1])||'';
       if(!titulo&&!texto&&!link) return;
       var cid=nombre.replace(/ /g,'_')+'_'+cardIdx;
@@ -292,7 +297,8 @@ function renderCumpleanos(rows){
   var html=panelHeader('Cumpleaños');
   if(!rows||rows.length===0){html+='<div class="estado">Sin cumpleaños cargados.</div>';}
   else {
-    rows.forEach(function(f){
+    var datoscumple=rows.filter(function(f,i){return i>0&&f[2];});
+    datoscumple.forEach(function(f){
       var nombre=f[2]||'', fecha=f[1]||'', foto=f[4]||'';
       if(!nombre) return;
       var fechaStr=formatFecha(fecha);
@@ -319,7 +325,8 @@ function renderTrayecto(nombre, rows){
       html+='<th style="text-align:left;padding:8px;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--cs);font-weight:400;">'+h+'</th>';
     });
     html+='</tr>';
-    rows.forEach(function(f){
+    var datostray=rows.filter(function(f,i){return i>0&&f[0];});
+    datostray.forEach(function(f){
       if(!f[0]) return;
       var hs=parseFloat(f[3])||0;
       html+='<tr style="border-bottom:1px solid rgba(189,205,207,0.07)">';
@@ -553,6 +560,17 @@ function marcarTitilantes(){
     });
   });
 }
+
+// ── DEBUG ──
+leerHoja('NOVEDADES', function(rows){
+  var d = document.createElement('div');
+  d.style.cssText = 'background:rgba(255,255,255,0.1);padding:12px;border-radius:8px;margin:10px 0;font-size:11px;word-break:break-all;color:#fff;';
+  d.innerHTML = '<strong>DEBUG NOVEDADES:</strong><br>Filas totales: '+rows.length+'<br>';
+  if(rows.length>0) d.innerHTML += 'Fila 0: '+JSON.stringify(rows[0])+'<br>';
+  if(rows.length>1) d.innerHTML += 'Fila 1: '+JSON.stringify(rows[1])+'<br>';
+  if(rows.length>2) d.innerHTML += 'Fila 2: '+JSON.stringify(rows[2]);
+  document.querySelector('.app').insertBefore(d, document.getElementById('cumple-banner'));
+});
 
 // ── INICIO ──
 cargarCarrusel();

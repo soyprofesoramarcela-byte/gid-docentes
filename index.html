@@ -182,12 +182,11 @@ footer p{font-size:11px;font-weight:300;letter-spacing:0.15em;color:var(--cs);op
 
 </div>
 <script>
-var SHEET_ID = '17sj1cY1PWxtax-ejWp5-tsRf7iSAUVqMAmFdaPbm6q8';
-var APPS_URL = 'https://script.google.com/macros/s/AKfycbzxafN5qjVBMI1Mffw9tDl3bhGUth1qQukPaWTt-LfTCXll5xtgwfeqW2urV7kQJD-L/exec';
+// Datos inyectados por el servidor
+try { var _datos = {{DATOS_JSON}}; } catch(e){ var _datos = {}; }
 var SHEET_PUB_ID = '2PACX-1vQvKzpCUkWuBJYYAs6Rzf2lt0UQgwmDT3vFhzzHzMQbDWSPIO8FcAJyMhAUHQUCNP3_c-JYgPTyp9eJ';
 var seccionActiva = null;
 var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-var cache = {};
 
 
 
@@ -206,19 +205,12 @@ function formatFecha(v){
 }
 
 function leerHoja(hoja, callback){
-  if(cache[hoja]){ callback(cache[hoja]); return; }
-  var cbName = 'gidcb_' + hoja.replace(/[^a-zA-Z0-9]/g,'') + '_' + Date.now();
-  window[cbName] = function(data){
-    var rows = data.datos || [];
-    cache[hoja] = rows;
-    callback(rows);
-    delete window[cbName];
-    if(s.parentNode) s.parentNode.removeChild(s);
-  };
-  var s = document.createElement('script');
-  s.onerror = function(){ callback([]); delete window[cbName]; };
-  s.src = APPS_URL + '?v=datos&hoja=' + encodeURIComponent(hoja) + '&callback=' + cbName;
-  document.head.appendChild(s);
+  // Usar datos inyectados por el servidor
+  if(_datos && _datos[hoja]){
+    callback(_datos[hoja]);
+  } else {
+    callback([]);
+  }
 }
 
 // ── ABRIR SECCIÓN ──

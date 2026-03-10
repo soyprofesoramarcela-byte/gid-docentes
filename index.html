@@ -60,38 +60,27 @@ header{padding:36px 0 24px;text-align:center;}
 @keyframes cumple-pulse{0%,100%{box-shadow:0 0 0 rgba(227,184,184,0);}50%{box-shadow:0 0 20px rgba(227,184,184,0.2);}}
 @keyframes cumple-shine{0%{left:-100%;}100%{left:100%;}}
 
-/* Carrusel — Stack 3D */
-.carrusel-wrap-outer{margin-bottom:32px;position:relative;}
-.carrusel-label{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--cs);opacity:0.35;margin-bottom:20px;text-align:center;}
-.stack-container{position:relative;height:140px;margin:0 auto;cursor:pointer;user-select:none;}
-.stack-card{
-  position:absolute;left:0;right:0;
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(189,205,207,0.12);
-  border-radius:18px;padding:20px 22px;
-  transition:all 0.45s cubic-bezier(0.34,1.56,0.64,1);
-  will-change:transform,opacity;
-  overflow:hidden;
+/* Ticker de novedades */
+.ticker-wrap{margin-bottom:28px;overflow:hidden;position:relative;}
+.ticker-label{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--cs);opacity:0.35;margin-bottom:12px;text-align:center;}
+.ticker-track{display:flex;gap:0;cursor:pointer;}
+.ticker-inner{display:flex;gap:24px;animation:ticker-scroll 18s linear infinite;white-space:nowrap;}
+.ticker-inner:hover{animation-play-state:paused;}
+.ticker-item{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(189,205,207,0.1);
+  border-radius:50px;
+  padding:10px 18px;
+  flex-shrink:0;
+  transition:all 0.2s;
 }
-.stack-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--sa),transparent);opacity:0;}
-.stack-card.pos-0{
-  transform:translateY(0) scale(1);
-  opacity:1;z-index:3;
-  background:rgba(3,76,54,0.18);
-  border-color:rgba(227,184,184,0.2);
-}
-.stack-card.pos-0::before{opacity:1;}
-.stack-card.pos-1{transform:translateY(12px) scale(0.95);opacity:0.6;z-index:2;}
-.stack-card.pos-2{transform:translateY(22px) scale(0.90);opacity:0.3;z-index:1;}
-.stack-card.pos-out{transform:translateY(-60px) scale(1.05);opacity:0;z-index:4;}
-.carrusel-seccion{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--sa);margin-bottom:8px;display:block;}
-.carrusel-titulo{font-size:16px;font-weight:300;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.carrusel-fecha{font-size:11px;color:var(--cs);opacity:0.45;margin-top:10px;display:block;}
-.stack-hint{text-align:center;margin-top:10px;font-size:11px;color:var(--cs);opacity:0.35;letter-spacing:0.1em;}
-.stack-counter{position:absolute;top:12px;right:14px;font-size:10px;color:var(--sa);opacity:0.6;letter-spacing:0.1em;z-index:10;}
-.stack-dots{display:flex;justify-content:center;gap:5px;margin-top:12px;}
-.stack-dot{width:5px;height:5px;border-radius:50%;background:rgba(189,205,207,0.2);transition:all 0.3s;}
-.stack-dot.activo{background:var(--sa);transform:scale(1.3);}
+.ticker-item:active{background:rgba(3,76,54,0.3);border-color:rgba(227,184,184,0.3);}
+.ticker-dot{width:5px;height:5px;border-radius:50%;background:var(--sa);flex-shrink:0;animation:pulso 2s ease-in-out infinite;}
+.ticker-sec{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--sa);opacity:0.7;}
+.ticker-txt{font-size:13px;font-weight:300;color:var(--cr);max-width:200px;overflow:hidden;text-overflow:ellipsis;}
+.ticker-fecha{font-size:10px;color:var(--cs);opacity:0.4;margin-left:4px;}
+@keyframes ticker-scroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 
 /* Menú */
 .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
@@ -569,58 +558,21 @@ function cargarCarrusel(){
 
 function renderCarrusel(items){
   if(!items||!items.length) return;
-  var top = items.slice(0,3);
-  var cur = 0;
-  
-  function buildHtml(){
-    var html = '<div class="carrusel-wrap-outer"><div class="carrusel-label">últimas novedades</div>';
-    html += '<div class="stack-container" id="stack-cont" onclick="stackNext()">';
-    html += '<div class="stack-counter" id="stack-counter">1 / '+top.length+'</div>';
-    top.forEach(function(item, i){
-      var pos = i; // 0=frente, 1=medio, 2=atrás
-      html += '<div class="stack-card pos-'+pos+'" id="scard-'+i+'">';
-      html += '<span class="carrusel-seccion">'+item.seccion.charAt(0)+item.seccion.slice(1).toLowerCase()+'</span>';
-      html += '<div class="carrusel-titulo">'+item.titulo+'</div>';
-      if(item.fecha) html += '<span class="carrusel-fecha">'+item.fecha+'</span>';
-      html += '</div>';
-    });
+  // Duplicar items para loop continuo
+  var todos = items.concat(items);
+  var html = '<div class="ticker-wrap"><div class="ticker-label">novedades recientes</div>';
+  html += '<div class="ticker-track"><div class="ticker-inner">';
+  todos.forEach(function(item){
+    var sec = item.seccion.charAt(0)+item.seccion.slice(1).toLowerCase();
+    html += '<div class="ticker-item" onclick="abrir(''+item.seccion+'',null)">';
+    html += '<div class="ticker-dot"></div>';
+    html += '<span class="ticker-sec">'+sec+'</span>';
+    html += '<span class="ticker-txt">'+item.titulo+'</span>';
+    if(item.fecha) html += '<span class="ticker-fecha">'+item.fecha+'</span>';
     html += '</div>';
-    html += '<div class="stack-hint">toca para ver más</div>';
-    html += '<div class="stack-dots">';
-    top.forEach(function(_,i){html += '<div class="stack-dot'+(i===0?' activo':'')+'" id="sdot-'+i+'"></div>';});
-    html += '</div></div>';
-    return html;
-  }
-  
-  document.getElementById('carrusel-wrap').innerHTML = buildHtml();
-  
-  window.stackNext = function(){
-    var n = top.length;
-    var cards = document.querySelectorAll('.stack-card');
-    var dots = document.querySelectorAll('.stack-dot');
-    // Animar card del frente: sale volando arriba
-    var front = document.getElementById('scard-'+cur);
-    if(front){
-      front.classList.remove('pos-0');
-      front.classList.add('pos-out');
-    }
-    setTimeout(function(){
-      // Rotar posiciones
-      cur = (cur+1) % n;
-      cards.forEach(function(card, i){
-        card.className = 'stack-card';
-        var idx = parseInt(card.id.split('-')[1]);
-        var rel = ((idx - cur) + n) % n;
-        if(rel < 3) card.classList.add('pos-'+rel);
-        else card.style.opacity = '0';
-      });
-      dots.forEach(function(d,i){
-        d.classList.toggle('activo', i===cur);
-      });
-      var counter = document.getElementById('stack-counter');
-      if(counter) counter.textContent = (cur+1) + ' / ' + n;
-    }, 200);
-  };
+  });
+  html += '</div></div></div>';
+  document.getElementById('carrusel-wrap').innerHTML = html;
 }
 function irCarrusel(i){}
 

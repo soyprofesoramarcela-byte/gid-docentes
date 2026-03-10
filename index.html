@@ -34,8 +34,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 /* Header */
 header{padding:36px 0 24px;text-align:center;}
-.mate-wrap{margin:0 auto 20px;width:56px;height:68px;display:block;}
-.mate-svg{width:56px;height:68px;filter:drop-shadow(0 0 8px rgba(3,76,54,0.6));transition:filter 0.3s;}
+.mate-wrap{margin:0 auto 20px;width:56px;height:80px;display:block;}
+.mate-svg{width:56px;height:80px;filter:drop-shadow(0 0 8px rgba(3,76,54,0.6));transition:filter 0.3s;}
 .mate-svg:hover{filter:drop-shadow(0 0 14px rgba(227,184,184,0.4));}
 .h-inst{font-size:11px;font-weight:300;letter-spacing:0.25em;text-transform:uppercase;color:var(--sa);opacity:0.7;margin-bottom:4px;display:block;}
 .h-depto{font-size:20px;font-weight:300;letter-spacing:0.15em;color:var(--sa);margin-bottom:16px;display:block;}
@@ -155,24 +155,34 @@ footer p{font-size:11px;font-weight:300;letter-spacing:0.15em;color:var(--cs);op
 <header>
   <div class="mate-wrap">
     <a id="mate-wa" href="#" target="_blank" rel="noopener">
-    <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="mate-svg">
-      <ellipse cx="50" cy="78" rx="30" ry="34" fill="#034C36" stroke="#BDCDCF" stroke-width="1.5"/>
-      <rect x="35" y="44" width="30" height="11" rx="5.5" fill="#BDCDCF" opacity="0.5"/>
-      <line x1="50" y1="44" x2="50" y2="18" stroke="#BDCDCF" stroke-width="2.5" stroke-linecap="round"/>
-      <ellipse cx="50" cy="15" rx="4" ry="6" fill="#E3B8B8" opacity="0.85">
-        <animate attributeName="opacity" values="0.85;0.2;0.85" dur="2s" repeatCount="indefinite"/>
-      </ellipse>
-      <path d="M56 68 Q65 62 72 68 Q65 74 56 68Z" fill="#BDCDCF" opacity="0.25"/>
-      <rect x="78" y="70" width="14" height="7" rx="3.5" fill="#BDCDCF" opacity="0.35"/>
-      <ellipse cx="50" cy="62" rx="18" ry="4" fill="#F2E0DF" opacity="0.07"/>
+    <svg viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg" class="mate-svg">
+      <!-- Vapor -->
+      <path d="M40 38 Q37 28 40 18 Q43 8 40 0" stroke="#BDCDCF" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5">
+        <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="d" values="M40 38 Q37 28 40 18 Q43 8 40 0;M40 38 Q43 28 40 18 Q37 8 40 0;M40 38 Q37 28 40 18 Q43 8 40 0" dur="2s" repeatCount="indefinite"/>
+      </path>
+      <path d="M50 36 Q47 26 50 16 Q53 6 50 -2" stroke="#BDCDCF" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.4">
+        <animate attributeName="opacity" values="0.4;0.05;0.4" dur="2.5s" repeatCount="indefinite"/>
+        <animate attributeName="d" values="M50 36 Q47 26 50 16 Q53 6 50 -2;M50 36 Q53 26 50 16 Q47 6 50 -2;M50 36 Q47 26 50 16 Q53 6 50 -2" dur="2.5s" repeatCount="indefinite"/>
+      </path>
+      <path d="M60 38 Q63 28 60 18 Q57 8 60 0" stroke="#BDCDCF" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.3">
+        <animate attributeName="opacity" values="0.3;0.05;0.3" dur="1.8s" repeatCount="indefinite"/>
+        <animate attributeName="d" values="M60 38 Q63 28 60 18 Q57 8 60 0;M60 38 Q57 28 60 18 Q63 8 60 0;M60 38 Q63 28 60 18 Q57 8 60 0" dur="1.8s" repeatCount="indefinite"/>
+      </path>
+      <!-- Mate -->
+      <ellipse cx="50" cy="90" rx="30" ry="34" fill="#034C36" stroke="#BDCDCF" stroke-width="1.5"/>
+      <rect x="35" y="56" width="30" height="11" rx="5.5" fill="#BDCDCF" opacity="0.5"/>
+      <!-- Bombilla -->
+      <line x1="50" y1="56" x2="50" y2="36" stroke="#BDCDCF" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M56 80 Q65 74 72 80 Q65 86 56 80Z" fill="#BDCDCF" opacity="0.25"/>
+      <rect x="78" y="82" width="14" height="7" rx="3.5" fill="#BDCDCF" opacity="0.35"/>
+      <ellipse cx="50" cy="74" rx="18" ry="4" fill="#F2E0DF" opacity="0.07"/>
     </svg>
     </a>
   </div>
   <span class="h-inst" id="h-inst">I.P.E.M. N°144: Mariano Moreno</span>
   <span class="h-depto" id="h-depto">Departamento de F.V.T.</span>
-  <h1 class="h-titulo">Gestor de<br>Información<br>Departamental</h1>
-  <p class="h-gid">(G.I.D.)</p>
-  <p class="h-bienestar">Bienestar Digital</p>
+  <h1 class="h-titulo">G.I.D.</h1>
 </header>
 
 <div id="cumple-banner"></div>
@@ -249,7 +259,7 @@ var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','
       splash.style.opacity="0";
       setTimeout(function(){ splash.style.display="none"; }, 450);
     }, 600);
-  }, 2500);
+  }, 5500);
 })();
 
 // ── MATE WHATSAPP ──

@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -123,20 +124,62 @@ header{padding:36px 0 24px;text-align:center;}
 .cal-ev-link{font-size:12px;color:var(--sa);margin-top:5px;display:inline-block;text-decoration:none;border-bottom:1px solid rgba(227,184,184,0.3);}
 .cal-ev-cumple{color:var(--cr);}
 
+/* Mate */
+.mate-wrap{margin:0 auto 20px;width:56px;height:68px;display:block;}
+.mate-svg{width:56px;height:68px;filter:drop-shadow(0 0 8px rgba(3,76,54,0.6));transition:filter 0.3s;}
+.mate-svg:hover{filter:drop-shadow(0 0 14px rgba(227,184,184,0.4));}
+
 /* Footer */
 footer{text-align:center;padding:30px 0 16px;border-top:1px solid rgba(189,205,207,0.07);margin-top:40px;}
 footer p{font-size:11px;font-weight:300;letter-spacing:0.15em;color:var(--cs);opacity:0.35;line-height:2;}
 </style>
 </head>
 <body>
+<!-- PANTALLA DE BIENVENIDA -->
+<div id="splash" style="position:fixed;inset:0;background:#001a12;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;">
+  <div id="splash-logo" style="opacity:0;transform:scale(0.8);transition:all 0.8s ease;">
+    <img src="https://i.imgur.com/wmUIuHk.jpeg" alt="GID" style="width:140px;filter:drop-shadow(0 0 30px rgba(3,76,54,0.9)) drop-shadow(0 0 60px rgba(3,76,54,0.5));">
+  </div>
+  <div id="splash-particles" style="position:absolute;inset:0;overflow:hidden;pointer-events:none;"></div>
+</div>
+
+<style>
+@keyframes particula{
+  0%{transform:translate(0,0) scale(1);opacity:1;}
+  100%{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0;}
+}
+#splash.desintegrando #splash-logo{
+  animation:desintegrar 0.8s forwards;
+}
+@keyframes desintegrar{
+  0%{opacity:1;filter:blur(0);}
+  50%{opacity:0.5;filter:blur(4px);}
+  100%{opacity:0;filter:blur(12px)transform:scale(1.3);}
+}
+#splash.oculto{opacity:0;transition:opacity 0.5s;}
+</style>
+
 <div class="app">
 
 <header>
+  <div class="mate-wrap">
+    <a id="mate-wa" href="#" target="_blank" rel="noopener">
+    <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="mate-svg">
+      <ellipse cx="50" cy="78" rx="30" ry="34" fill="#034C36" stroke="#BDCDCF" stroke-width="1.5"/>
+      <rect x="35" y="44" width="30" height="11" rx="5.5" fill="#BDCDCF" opacity="0.5"/>
+      <line x1="50" y1="44" x2="50" y2="18" stroke="#BDCDCF" stroke-width="2.5" stroke-linecap="round"/>
+      <ellipse cx="50" cy="15" rx="4" ry="6" fill="#E3B8B8" opacity="0.85">
+        <animate attributeName="opacity" values="0.85;0.2;0.85" dur="2s" repeatCount="indefinite"/>
+      </ellipse>
+      <path d="M56 68 Q65 62 72 68 Q65 74 56 68Z" fill="#BDCDCF" opacity="0.25"/>
+      <rect x="78" y="70" width="14" height="7" rx="3.5" fill="#BDCDCF" opacity="0.35"/>
+      <ellipse cx="50" cy="62" rx="18" ry="4" fill="#F2E0DF" opacity="0.07"/>
+    </svg>
+    </a>
+  </div>
   <span class="h-inst" id="h-inst">I.P.E.M. N°144: Mariano Moreno</span>
   <span class="h-depto" id="h-depto">Departamento de F.V.T.</span>
-  <div class="logo-wrap">
-    <img src="https://i.imgur.com/wmUIuHk.jpeg" alt="GID" onerror="this.style.display='none'" style="width:110px;">
-  </div>
+  <h1 class="h-titulo">Gestor de<br>Información<br>Departamental</h1>
   <p class="h-gid">(G.I.D.)</p>
   <p class="h-bienestar">Bienestar Digital</p>
 </header>
@@ -175,8 +218,11 @@ footer p{font-size:11px;font-weight:300;letter-spacing:0.15em;color:var(--cs);op
 <div id="panel"></div>
 
 <footer>
-  <p>G.I.D. — Bienestar Digital</p>
-  <p>Información del Departamento</p>
+  <img src="https://i.imgur.com/wmUIuHk.jpeg" alt="GID" style="width:70px;opacity:0.7;margin-bottom:12px;">
+  <p>G.I.D. — Gestor de Información Departamental</p>
+  <p style="margin-top:6px;font-size:10px;opacity:0.5;">para el Bienestar Digital Docente</p>
+  <p style="margin-top:10px;font-size:10px;color:var(--sa);opacity:0.6;">Diseñado por Mar Armin</p>
+  <p style="margin-top:4px;"><a href="#" style="font-size:10px;color:var(--cs);opacity:0.4;text-decoration:none;">Avisos Legales</a></p>
 </footer>
 
 </div>
@@ -545,6 +591,59 @@ function marcarTitilantes(){
     });
   });
 }
+
+// ── SPLASH ──
+(function(){
+  var splash = document.getElementById('splash');
+  var logo = document.getElementById('splash-logo');
+  var parts = document.getElementById('splash-particles');
+  
+  // Aparecer logo
+  setTimeout(function(){ logo.style.opacity='1'; logo.style.transform='scale(1)'; }, 100);
+  
+  // Crear partículas futuristas
+  function crearParticulas(){
+    for(var i=0;i<40;i++){
+      var p = document.createElement('div');
+      var size = Math.random()*3+1;
+      var x = Math.random()*100;
+      var y = Math.random()*100;
+      var dx = (Math.random()-0.5)*200;
+      var dy = (Math.random()-0.5)*200;
+      var delay = Math.random()*0.6;
+      var color = Math.random()>0.5 ? '#034C36' : '#E3B8B8';
+      p.style.cssText = 'position:absolute;border-radius:50%;background:'+color+
+        ';width:'+size+'px;height:'+size+'px;left:'+x+'%;top:'+y+'%;'+
+        '--dx:'+dx+'px;--dy:'+dy+'px;'+
+        'animation:particula 0.8s '+delay+'s forwards;opacity:0;';
+      parts.appendChild(p);
+    }
+  }
+  
+  // Desintegrar después de 2.2 segundos
+  setTimeout(function(){
+    crearParticulas();
+    logo.style.transition='all 0.8s';
+    logo.style.opacity='0';
+    logo.style.transform='scale(1.2)';
+    logo.style.filter='blur(8px)';
+    setTimeout(function(){
+      splash.style.opacity='0';
+      splash.style.transition='opacity 0.4s';
+      setTimeout(function(){ splash.style.display='none'; }, 400);
+    }, 700);
+  }, 2200);
+})();
+
+// ── MATE WHATSAPP ──
+(function(){
+  var depto = document.getElementById('h-depto');
+  var nombre = depto ? depto.textContent.trim() : 'el Departamento';
+  var msg = encodeURIComponent('Tenemos novedades en ' + nombre + '
+https://teal-lokum-07d15a.netlify.app');
+  var link = document.getElementById('mate-wa');
+  if(link) link.href = 'https://wa.me/?text=' + msg;
+})();
 
 // ── INICIO ──
 cargarCarrusel();

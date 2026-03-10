@@ -182,8 +182,9 @@ footer p{font-size:11px;font-weight:300;letter-spacing:0.15em;color:var(--cs);op
 
 </div>
 <script>
-// Datos inyectados por el servidor
-try { var _datos = {{DATOS_JSON}}; } catch(e){ var _datos = {}; }
+var SHEET_ID = '17sj1cY1PWxtax-ejWp5-tsRf7iSAUVqMAmFdaPbm6q8';
+var API_KEY = 'AIzaSyAYKvaEhqJL8oa5szOJ0p-du7Mw8Chn3Tk';
+var cache = {};
 var SHEET_PUB_ID = '2PACX-1vQvKzpCUkWuBJYYAs6Rzf2lt0UQgwmDT3vFhzzHzMQbDWSPIO8FcAJyMhAUHQUCNP3_c-JYgPTyp9eJ';
 var seccionActiva = null;
 var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
@@ -205,12 +206,18 @@ function formatFecha(v){
 }
 
 function leerHoja(hoja, callback){
-  // Usar datos inyectados por el servidor
-  if(_datos && _datos[hoja]){
-    callback(_datos[hoja]);
-  } else {
-    callback([]);
-  }
+  if(cache[hoja]){ callback(cache[hoja]); return; }
+  var range = encodeURIComponent(hoja+'!A:F');
+  var url = 'https://sheets.googleapis.com/v4/spreadsheets/'+SHEET_ID+
+    '/values/'+range+'?key='+API_KEY;
+  fetch(url)
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      var rows = (data.values || []).slice(1); // saltar encabezados
+      cache[hoja] = rows;
+      callback(rows);
+    })
+    .catch(function(){ callback([]); });
 }
 
 // ── ABRIR SECCIÓN ──

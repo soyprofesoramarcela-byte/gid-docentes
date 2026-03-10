@@ -207,18 +207,18 @@ function formatFecha(v){
 
 function leerHoja(hoja, callback){
   if(cache[hoja]){ callback(cache[hoja]); return; }
-  var url = APPS_URL + '?v=datos&hoja=' + encodeURIComponent(hoja);
-  fetch(url)
-    .then(function(r){ return r.json(); })
-    .then(function(data){
-      var rows = data.datos || [];
-      cache[hoja] = rows;
-      callback(rows);
-    })
-    .catch(function(e){ 
-      console.error('Error cargando '+hoja, e); 
-      callback([]); 
-    });
+  var cbName = 'gidcb_' + hoja.replace(/[^a-zA-Z0-9]/g,'') + '_' + Date.now();
+  window[cbName] = function(data){
+    var rows = data.datos || [];
+    cache[hoja] = rows;
+    callback(rows);
+    delete window[cbName];
+    if(s.parentNode) s.parentNode.removeChild(s);
+  };
+  var s = document.createElement('script');
+  s.onerror = function(){ callback([]); delete window[cbName]; };
+  s.src = APPS_URL + '?v=datos&hoja=' + encodeURIComponent(hoja) + '&callback=' + cbName;
+  document.head.appendChild(s);
 }
 
 // ── ABRIR SECCIÓN ──

@@ -8,11 +8,9 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
 <style>
 #splash{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#001a12;z-index:999999;display:flex;align-items:center;justify-content:center;overflow:hidden;}
-#splash-logo{width:82vw;max-width:82vw;height:auto;opacity:0;transform:scale(1.15);position:relative;z-index:2;mix-blend-mode:screen;}
+#splash-logo{width:96vw;max-width:96vw;height:auto;opacity:0;transform:scale(0.9);transition:opacity 1.4s ease,transform 1.4s ease;position:relative;z-index:2;mix-blend-mode:screen;}
 #splash-pts{position:absolute;inset:0;pointer-events:none;z-index:1;}
 @keyframes pt{0%{opacity:1;transform:translate(0,0) scale(1);}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0);}}
-@keyframes spl-in{0%{opacity:0;transform:scale(1.15);}100%{opacity:1;transform:scale(1.04);}}
-@keyframes spl-shrink{0%{transform:scale(1.04);}100%{transform:scale(0.72);}}
 :root{--vp:#034C36;--vo:#003332;--cr:#F2E0DF;--cs:#BDCDCF;--sa:#E3B8B8;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{font-size:18px;}
@@ -23,8 +21,6 @@ header{padding:36px 0 24px;text-align:center;}
 .mate-wrap{margin:0 auto 20px;display:inline-block;position:relative;}
 .mate-img{width:90px;height:auto;display:block;filter:drop-shadow(0 0 12px rgba(3,76,54,0.5));transition:filter 0.3s;}
 .mate-img:hover{filter:drop-shadow(0 0 20px rgba(227,184,184,0.4));}
-.h-titulo{font-size:38px;font-weight:200;letter-spacing:0.45em;color:var(--cr);display:block;margin-bottom:2px;}
-.h-gid{font-size:9px;font-weight:300;letter-spacing:0.35em;text-transform:uppercase;color:var(--cs);opacity:0.45;margin-bottom:22px;display:block;}
 .h-inst{font-size:10px;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;color:var(--cs);opacity:0.5;margin-bottom:6px;display:block;}
 .h-depto{font-size:17px;font-weight:300;letter-spacing:0.12em;color:var(--sa);margin-bottom:0;display:block;}
 #cumple-banner{display:none;margin:0 0 20px;padding:16px 20px;background:linear-gradient(135deg,rgba(227,184,184,0.15),rgba(3,76,54,0.2));border:1px solid rgba(227,184,184,0.35);border-radius:16px;font-size:14px;color:var(--sa);text-align:center;animation:cpulse 2s ease-in-out infinite;}
@@ -113,13 +109,11 @@ footer p{font-size:11px;font-weight:300;letter-spacing:0.15em;color:var(--cs);op
 </div>
 <div class="app">
 <header>
-  <h1 class="h-titulo">G.I.D.</h1>
-  <p class="h-gid">Gestor de Información Departamental</p>
   <span class="h-inst" id="h-inst">I.P.E.M. N°144: Mariano Moreno</span>
   <span class="h-depto" id="h-depto">Departamento de F.V.T.</span>
   <div class="mate-wrap" style="margin-top:18px;">
     <a id="mate-wa" href="#" target="_blank" rel="noopener" style="display:block;">
-      <img src="https://raw.githubusercontent.com/soyprofesoramarcela-byte/gid-docentes/main/mate.png" alt="mate" class="mate-img" style="mix-blend-mode:screen;">
+      <img src="https://raw.githubusercontent.com/soyprofesoramarcela-byte/gid-docentes/main/mate.png" alt="mate" class="mate-img">
     </a>
   </div>
 </header>
@@ -167,39 +161,29 @@ function cerrarSplash(){
   var splash = document.getElementById("splash");
   var logo = document.getElementById("splash-logo");
   var pts = document.getElementById("splash-pts");
-  // Fase 3: desintegración con partículas
-  for(var i=0;i<40;i++){
+  for(var i=0;i<35;i++){
     var p = document.createElement("div");
-    var sz = (Math.random()*4+1).toFixed(1);
-    var tx = ((Math.random()-0.5)*400).toFixed(0)+"px";
-    var ty = ((Math.random()-0.5)*400).toFixed(0)+"px";
-    var dl = (Math.random()*0.4).toFixed(2)+"s";
-    var col = Math.random()>0.5 ? "#034C36" : "#E3B8B8";
-    p.style.cssText = "position:absolute;border-radius:50%;width:"+sz+"px;height:"+sz+"px;background:"+col+";left:"+Math.round(Math.random()*100)+"%;top:"+Math.round(Math.random()*100)+"%;--tx:"+tx+";--ty:"+ty+";animation:pt 0.8s "+dl+" forwards;";
+    var sz = (Math.random()*4+0.5).toFixed(1);
+    var tx = ((Math.random()-0.5)*300).toFixed(0)+"px";
+    var ty = ((Math.random()-0.5)*300).toFixed(0)+"px";
+    var dl = (Math.random()*0.5).toFixed(2)+"s";
+    var col = ["#E3B8B8","#F2E0DF","#BDCDCF","#ffffff"][Math.floor(Math.random()*4)];
+    p.style.cssText = "position:absolute;border-radius:50%;width:"+sz+"px;height:"+sz+"px;background:"+col+";left:"+Math.round(Math.random()*100)+"%;top:"+Math.round(Math.random()*100)+"%;--tx:"+tx+";--ty:"+ty+";animation:pt 0.7s "+dl+" forwards;";
     pts.appendChild(p);
   }
-  logo.style.animation="none";
-  logo.style.transition="all 0.6s ease-in";
+  logo.style.transition="all 0.7s";
   logo.style.opacity="0";
-  logo.style.transform="scale(1.4)";
+  logo.style.transform="scale(1.3)";
   setTimeout(function(){
     splash.style.transition="opacity 0.4s";
     splash.style.opacity="0";
     setTimeout(function(){ splash.style.display="none"; }, 450);
-  }, 500);
+  }, 600);
 }
 (function(){
   var logo = document.getElementById("splash-logo");
-  // Fase 1: aparece grande (0 → 1.04)
-  setTimeout(function(){
-    logo.style.animation = "spl-in 1s ease-out forwards";
-  }, 100);
-  // Fase 2: achica suavemente (1.04 → 0.72) durante 2s
-  setTimeout(function(){
-    logo.style.animation = "spl-shrink 2s ease-in-out forwards";
-  }, 1200);
-  // Fase 3: desintegra a los 3.5s
-  setTimeout(cerrarSplash, 3500);
+  setTimeout(function(){ logo.style.opacity="1"; logo.style.transform="scale(1)"; }, 200);
+  setTimeout(cerrarSplash, 5000);
 })();
 
 // MATE WA

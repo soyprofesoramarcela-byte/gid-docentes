@@ -7,82 +7,35 @@
 <title>G.I.D.</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
 <style>
-/* ── SPLASH ── debe ir primero */
-#splash{
-  position:fixed;top:0;left:0;width:100vw;height:100vh;
-  background:#001a12;
-  z-index:999999;
-  display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
-}
-#splash-logo{
-  width:88vw;height:auto;
-  opacity:0;transform:scale(0.85);
-  transition:opacity 1.2s ease,transform 1.2s ease;
-  position:relative;z-index:2;
-}
+#splash{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#001a12;z-index:999999;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+#splash-logo{width:88vw;height:auto;opacity:0;transform:scale(0.85);transition:opacity 1.2s ease,transform 1.2s ease;position:relative;z-index:2;}
 #splash-pts{position:absolute;inset:0;pointer-events:none;z-index:1;}
 @keyframes pt{0%{opacity:1;transform:translate(0,0) scale(1);}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0);}}
-
-/* ── BASE ── */
 :root{--vp:#034C36;--vo:#003332;--cr:#F2E0DF;--cs:#BDCDCF;--sa:#E3B8B8;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{font-size:18px;}
 body{font-family:'DM Sans',sans-serif;background:var(--vo);color:var(--cr);min-height:100vh;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 10% 20%,rgba(3,76,54,0.5) 0%,transparent 60%),radial-gradient(ellipse 60% 80% at 90% 80%,rgba(3,76,54,0.3) 0%,transparent 55%);pointer-events:none;z-index:0;}
 .app{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:0 20px 60px;}
-
-/* Header */
 header{padding:36px 0 24px;text-align:center;}
 .mate-wrap{margin:0 auto 20px;width:56px;height:80px;display:block;}
 .mate-svg{width:56px;height:80px;filter:drop-shadow(0 0 8px rgba(3,76,54,0.6));transition:filter 0.3s;}
-.mate-svg:hover{filter:drop-shadow(0 0 14px rgba(227,184,184,0.4));}
 .h-inst{font-size:11px;font-weight:300;letter-spacing:0.25em;text-transform:uppercase;color:var(--sa);opacity:0.7;margin-bottom:4px;display:block;}
 .h-depto{font-size:20px;font-weight:300;letter-spacing:0.15em;color:var(--sa);margin-bottom:16px;display:block;}
-.h-titulo{font-size:18px;font-weight:200;letter-spacing:0.22em;text-transform:uppercase;line-height:1.6;}
+.h-titulo{font-size:22px;font-weight:200;letter-spacing:0.3em;}
 .h-gid{font-size:10px;font-weight:300;letter-spacing:0.3em;color:var(--sa);margin-top:6px;opacity:0.7;}
-.h-bienestar{font-size:9px;font-weight:300;letter-spacing:0.35em;text-transform:uppercase;color:var(--cs);opacity:0.4;margin-top:4px;}
-
-/* Banner cumple */
-#cumple-banner{
-  display:none;margin:0 0 20px;padding:16px 20px;
-  background:linear-gradient(135deg,rgba(227,184,184,0.15),rgba(3,76,54,0.2));
-  border:1px solid rgba(227,184,184,0.35);border-radius:16px;
-  font-size:14px;color:var(--sa);text-align:center;
-  animation:cumple-pulse 2s ease-in-out infinite;
-  position:relative;overflow:hidden;
-}
-#cumple-banner::before{
-  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
-  background:linear-gradient(90deg,transparent,rgba(227,184,184,0.08),transparent);
-  animation:cumple-shine 2.5s ease-in-out infinite;
-}
-@keyframes cumple-pulse{0%,100%{box-shadow:0 0 0 rgba(227,184,184,0);}50%{box-shadow:0 0 20px rgba(227,184,184,0.2);}}
-@keyframes cumple-shine{0%{left:-100%;}100%{left:100%;}}
-
-/* Ticker de novedades */
-.ticker-wrap{margin-bottom:28px;overflow:hidden;position:relative;}
+#cumple-banner{display:none;margin:0 0 20px;padding:16px 20px;background:linear-gradient(135deg,rgba(227,184,184,0.15),rgba(3,76,54,0.2));border:1px solid rgba(227,184,184,0.35);border-radius:16px;font-size:14px;color:var(--sa);text-align:center;animation:cpulse 2s ease-in-out infinite;}
+@keyframes cpulse{0%,100%{box-shadow:0 0 0 rgba(227,184,184,0);}50%{box-shadow:0 0 20px rgba(227,184,184,0.2);}}
+.ticker-wrap{margin-bottom:28px;overflow:hidden;}
 .ticker-label{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--cs);opacity:0.35;margin-bottom:12px;text-align:center;}
-.ticker-track{display:flex;gap:0;cursor:pointer;}
-.ticker-inner{display:flex;gap:24px;animation:ticker-scroll 18s linear infinite;white-space:nowrap;}
+.ticker-inner{display:flex;gap:16px;animation:ticker 20s linear infinite;}
 .ticker-inner:hover{animation-play-state:paused;}
-.ticker-item{
-  display:inline-flex;align-items:center;gap:10px;
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(189,205,207,0.1);
-  border-radius:50px;
-  padding:10px 18px;
-  flex-shrink:0;
-  transition:all 0.2s;
-}
-.ticker-item:active{background:rgba(3,76,54,0.3);border-color:rgba(227,184,184,0.3);}
-.ticker-dot{width:5px;height:5px;border-radius:50%;background:var(--sa);flex-shrink:0;animation:pulso 2s ease-in-out infinite;}
+@keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.ticker-item{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(189,205,207,0.1);border-radius:50px;padding:9px 16px;flex-shrink:0;cursor:pointer;transition:all 0.2s;}
+.ticker-item:active{background:rgba(3,76,54,0.3);}
+.ticker-dot{width:5px;height:5px;border-radius:50%;background:var(--sa);flex-shrink:0;}
 .ticker-sec{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--sa);opacity:0.7;}
-.ticker-txt{font-size:13px;font-weight:300;color:var(--cr);max-width:200px;overflow:hidden;text-overflow:ellipsis;}
-.ticker-fecha{font-size:10px;color:var(--cs);opacity:0.4;margin-left:4px;}
-@keyframes ticker-scroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-
-/* Menú */
+.ticker-txt{font-size:13px;font-weight:300;color:var(--cr);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
 .boton{background:rgba(255,255,255,0.04);border:1px solid rgba(189,205,207,0.15);border-radius:16px;padding:22px 16px;cursor:pointer;text-align:center;transition:all 0.25s;position:relative;overflow:hidden;color:var(--cr);}
 .boton:active{transform:scale(0.97);}
@@ -96,50 +49,38 @@ header{padding:36px 0 24px;text-align:center;}
 .boton-horas{font-size:22px;font-weight:200;color:var(--sa);white-space:nowrap;}
 .boton-horas small{font-size:11px;color:var(--cs);display:block;text-align:right;margin-top:-2px;font-weight:300;}
 .boton-horas-parciales{font-size:10px;color:var(--cs);opacity:0.6;text-align:right;margin-top:4px;line-height:1.6;}
-
-/* Divider */
 .divider{display:flex;align-items:center;gap:12px;margin:18px 0 14px;}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(189,205,207,0.15);}
 .divider span{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--cs);opacity:0.5;white-space:nowrap;}
-
-/* Panel */
 #panel{margin-top:24px;}
 .panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
 .panel-titulo{font-size:20px;font-weight:300;letter-spacing:0.1em;}
 .panel-cerrar{background:rgba(255,255,255,0.07);border:1px solid rgba(189,205,207,0.15);border-radius:50%;width:36px;height:36px;cursor:pointer;color:var(--cr);font-size:18px;display:flex;align-items:center;justify-content:center;}
-
-/* Cards */
 .card{background:rgba(255,255,255,0.05);border:1px solid rgba(189,205,207,0.1);border-radius:16px;padding:20px;margin-bottom:12px;}
 .card-fecha{font-size:11px;letter-spacing:0.1em;color:var(--cs);opacity:0.5;margin-bottom:6px;text-transform:uppercase;}
 .card-titulo{font-weight:500;font-size:16px;margin-bottom:6px;line-height:1.4;}
 .card-texto{font-size:15px;color:var(--cs);line-height:1.6;font-weight:300;}
 .card-link{display:inline-block;margin-top:10px;font-size:14px;color:var(--sa);text-decoration:none;border-bottom:1px solid rgba(227,184,184,0.3);padding-bottom:2px;}
-.card img{width:100%;border-radius:10px;margin-top:12px;}
+.card img{width:100%;border-radius:10px;margin-top:12px;display:block;}
 .card-cumple{display:flex;align-items:center;gap:16px;}
 .card-cumple-foto{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid rgba(189,205,207,0.2);flex-shrink:0;}
 .card-cumple-avatar{width:56px;height:56px;border-radius:50%;background:var(--vp);border:2px solid rgba(189,205,207,0.2);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
 .card-cumple-nombre{font-weight:500;font-size:16px;}
 .card-cumple-fecha{font-size:13px;color:var(--cs);margin-top:3px;}
-
-/* Comentarios */
-.btn-comentarios{background:none;border:none;color:var(--cs);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;padding:8px 0 0;opacity:0.6;letter-spacing:0.05em;}
+.btn-comentarios{background:none;border:none;color:var(--cs);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;padding:8px 0 0;opacity:0.6;}
 .comentarios-panel{margin-top:12px;border-top:1px solid rgba(189,205,207,0.1);padding-top:12px;display:none;}
 .comentario-item{padding:10px 0;border-bottom:1px solid rgba(189,205,207,0.07);}
-.comentario-nombre{font-size:11px;color:var(--sa);letter-spacing:0.05em;margin-bottom:4px;}
+.comentario-nombre{font-size:11px;color:var(--sa);margin-bottom:4px;}
 .comentario-texto{font-size:14px;color:var(--cs);font-weight:300;line-height:1.5;}
 .comentario-fecha{font-size:10px;color:var(--cs);opacity:0.35;margin-top:3px;}
 .comentario-form{margin-top:14px;padding-top:12px;border-top:1px solid rgba(189,205,207,0.1);}
 .comentario-form input,.comentario-form textarea{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(189,205,207,0.15);border-radius:10px;padding:10px 12px;color:var(--cr);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;margin-bottom:8px;}
 .comentario-form textarea{resize:none;height:70px;line-height:1.5;}
 .comentario-form input::placeholder,.comentario-form textarea::placeholder{color:rgba(189,205,207,0.25);}
-.btn-enviar-com{background:var(--vp);border:none;border-radius:10px;padding:10px 20px;color:var(--cr);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;letter-spacing:0.08em;}
-
-/* Estado */
+.btn-enviar-com{background:var(--vp);border:none;border-radius:10px;padding:10px 20px;color:var(--cr);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;}
 .estado{text-align:center;padding:40px 20px;color:var(--cs);opacity:0.5;font-size:15px;}
 .spinner{width:24px;height:24px;border:2px solid rgba(189,205,207,0.2);border-top-color:var(--cs);border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 12px;}
 @keyframes spin{to{transform:rotate(360deg);}}
-
-/* Calendario */
 .cal-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
 .cal-mes-label{font-size:13px;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;}
 .cal-nav-btn{background:none;border:1px solid rgba(189,205,207,0.15);border-radius:8px;color:var(--cs);font-size:16px;width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
@@ -147,59 +88,39 @@ header{padding:36px 0 24px;text-align:center;}
 .cal-dn{font-size:10px;color:var(--cs);opacity:0.4;padding-bottom:6px;}
 .cal-d{font-size:14px;font-weight:300;padding:6px 2px;border-radius:8px;}
 .cal-d.hoy{background:var(--vp);font-weight:500;}
-.cal-d.tiene-evento{color:var(--sa);font-weight:500;position:relative;}
-.cal-d.tiene-evento::after{content:'';position:absolute;bottom:1px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--sa);}
-.cal-d.tiene-cumple{color:var(--cr);position:relative;}
-.cal-d.tiene-cumple::after{content:'';position:absolute;bottom:1px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--cr);}
+.cal-d.tiene-evento{color:var(--sa);font-weight:500;}
+.cal-d.tiene-cumple{color:var(--cr);}
 .cal-sep{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--cs);opacity:0.4;margin-bottom:12px;}
 .cal-evento{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid rgba(189,205,207,0.07);}
 .cal-ev-fecha{min-width:40px;text-align:center;flex-shrink:0;}
 .cal-ev-num{font-size:26px;font-weight:200;line-height:1;color:var(--sa);}
-.cal-ev-mes{font-size:10px;letter-spacing:0.1em;color:var(--cs);opacity:0.6;text-transform:uppercase;}
+.cal-ev-mes{font-size:10px;color:var(--cs);opacity:0.6;text-transform:uppercase;}
 .cal-ev-titulo{font-size:15px;font-weight:400;margin-bottom:3px;}
 .cal-ev-desc{font-size:13px;color:var(--cs);opacity:0.7;line-height:1.5;}
-.cal-ev-link{font-size:12px;color:var(--sa);margin-top:5px;display:inline-block;text-decoration:none;border-bottom:1px solid rgba(227,184,184,0.3);}
+.cal-ev-link{font-size:12px;color:var(--sa);margin-top:5px;display:inline-block;text-decoration:none;}
 .cal-ev-cumple{color:var(--cr);}
-
-/* Footer */
 footer{text-align:center;padding:30px 0 16px;border-top:1px solid rgba(189,205,207,0.07);margin-top:40px;}
 footer p{font-size:11px;font-weight:300;letter-spacing:0.15em;color:var(--cs);opacity:0.35;line-height:2;}
 </style>
 </head>
 <body>
-
 <div id="splash">
-  <img id="splash-logo" src="https://i.imgur.com/wmUIuHk.jpeg" alt="GID">
+  <img id="splash-logo" src="https://i.imgur.com/wmUIuHk.jpeg" alt="GID" onerror="cerrarSplash()">
   <div id="splash-pts"></div>
 </div>
-
 <div class="app">
 <header>
   <div class="mate-wrap">
     <a id="mate-wa" href="#" target="_blank" rel="noopener">
     <svg viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg" class="mate-svg">
-      <!-- Vapor izq -->
-      <path d="M42 44 C39 36 43 28 40 20 C37 12 41 6 39 0" stroke="#BDCDCF" stroke-width="1.8" stroke-linecap="round" fill="none">
-        <animate attributeName="opacity" values="0.6;0;0.6" dur="2.2s" repeatCount="indefinite"/>
-      </path>
-      <!-- Vapor centro -->
-      <path d="M50 42 C53 34 47 26 50 18 C53 10 47 4 50 -2" stroke="#BDCDCF" stroke-width="1.8" stroke-linecap="round" fill="none">
-        <animate attributeName="opacity" values="0.5;0;0.5" dur="1.8s" begin="0.3s" repeatCount="indefinite"/>
-      </path>
-      <!-- Vapor der -->
-      <path d="M58 44 C61 36 57 28 60 20 C63 12 59 6 61 0" stroke="#BDCDCF" stroke-width="1.8" stroke-linecap="round" fill="none">
-        <animate attributeName="opacity" values="0.4;0;0.4" dur="2.5s" begin="0.6s" repeatCount="indefinite"/>
-      </path>
-      <!-- Cuerpo mate -->
+      <path d="M42 44 C39 36 43 28 40 20 C37 12 41 6 39 0" stroke="#BDCDCF" stroke-width="1.8" stroke-linecap="round" fill="none"><animate attributeName="opacity" values="0.6;0;0.6" dur="2.2s" repeatCount="indefinite"/></path>
+      <path d="M50 42 C53 34 47 26 50 18 C53 10 47 4 50 -2" stroke="#BDCDCF" stroke-width="1.8" stroke-linecap="round" fill="none"><animate attributeName="opacity" values="0.5;0;0.5" dur="1.8s" begin="0.3s" repeatCount="indefinite"/></path>
+      <path d="M58 44 C61 36 57 28 60 20 C63 12 59 6 61 0" stroke="#BDCDCF" stroke-width="1.8" stroke-linecap="round" fill="none"><animate attributeName="opacity" values="0.4;0;0.4" dur="2.5s" begin="0.6s" repeatCount="indefinite"/></path>
       <path d="M22 68 C20 88 28 118 50 120 C72 118 80 88 78 68 Z" fill="#034C36" stroke="#BDCDCF" stroke-width="1.5"/>
-      <!-- Boca -->
       <rect x="32" y="54" width="36" height="16" rx="8" fill="#023D2A" stroke="#BDCDCF" stroke-width="1.2"/>
-      <!-- Bombilla -->
       <line x1="50" y1="62" x2="52" y2="30" stroke="#BDCDCF" stroke-width="2.2" stroke-linecap="round"/>
       <ellipse cx="52" cy="28" rx="4" ry="3" fill="#BDCDCF" opacity="0.7"/>
-      <!-- Asa -->
       <path d="M78 76 Q92 76 92 88 Q92 100 78 100" stroke="#BDCDCF" stroke-width="2" fill="none" stroke-linecap="round"/>
-      <!-- Brillo -->
       <ellipse cx="38" cy="82" rx="6" ry="10" fill="white" opacity="0.05" transform="rotate(-15 38 82)"/>
     </svg>
     </a>
@@ -207,11 +128,10 @@ footer p{font-size:11px;font-weight:300;letter-spacing:0.15em;color:var(--cs);op
   <span class="h-inst" id="h-inst">I.P.E.M. N°144: Mariano Moreno</span>
   <span class="h-depto" id="h-depto">Departamento de F.V.T.</span>
   <h1 class="h-titulo">G.I.D.</h1>
+  <p class="h-gid">Gestor de Información Departamental</p>
 </header>
-
 <div id="cumple-banner"></div>
-<div id="carrusel-wrap"></div>
-
+<div id="ticker-wrap"></div>
 <div class="menu-grid">
   <button class="boton" style="grid-column:span 2" onclick="abrir('NOVEDADES',this)"><span class="boton-titulo">Novedades</span></button>
   <button class="boton" onclick="abrir('MATERIALES',this)"><span class="boton-titulo">Materiales</span></button>
@@ -221,36 +141,26 @@ footer p{font-size:11px;font-weight:300;letter-spacing:0.15em;color:var(--cs);op
   <button class="boton" onclick="abrir('INTEGRANTES',this)"><span class="boton-titulo">Integrantes</span></button>
   <button class="boton" onclick="abrir('CUMPLEAÑOS',this)"><span class="boton-titulo">Cumpleaños</span></button>
 </div>
-
 <div class="divider"><span>Formación Profesional</span></div>
 <div class="menu-grid">
   <button class="boton boton-trayecto" onclick="abrir('TRAYECTO TURISMO',this)">
     <span class="boton-titulo">Turismo</span>
-    <div style="text-align:right">
-      <div class="boton-horas" id="htur">—<small>hs totales</small></div>
-      <div class="boton-horas-parciales" id="htur-parciales"></div>
-    </div>
+    <div style="text-align:right"><div class="boton-horas" id="htur">—<small>hs totales</small></div><div class="boton-horas-parciales" id="htur-parciales"></div></div>
   </button>
   <button class="boton boton-trayecto" onclick="abrir('TRAYECTO ECONOMIA',this)">
     <span class="boton-titulo">Economía</span>
-    <div style="text-align:right">
-      <div class="boton-horas" id="heco">—<small>hs totales</small></div>
-      <div class="boton-horas-parciales" id="heco-parciales"></div>
-    </div>
+    <div style="text-align:right"><div class="boton-horas" id="heco">—<small>hs totales</small></div><div class="boton-horas-parciales" id="heco-parciales"></div></div>
   </button>
 </div>
-
 <div id="panel"></div>
-
 <footer>
-  <img src="https://i.imgur.com/wmUIuHk.jpeg" alt="GID" style="width:70px;opacity:0.6;margin-bottom:12px;display:block;margin-left:auto;margin-right:auto;">
+  <img src="https://i.imgur.com/wmUIuHk.jpeg" alt="GID" style="width:70px;opacity:0.6;margin:0 auto 12px;display:block;">
   <p>G.I.D. — Gestor de Información Departamental</p>
   <p style="margin-top:6px;font-size:10px;opacity:0.5;">para el Bienestar Digital Docente</p>
   <p style="margin-top:10px;font-size:10px;color:var(--sa);opacity:0.6;">Diseñado por Mar Armin</p>
   <p style="margin-top:4px;"><a href="#" style="font-size:10px;color:var(--cs);opacity:0.4;text-decoration:none;">Avisos Legales</a></p>
 </footer>
 </div>
-
 <script>
 var SHEET_ID = '17sj1cY1PWxtax-ejWp5-tsRf7iSAUVqMAmFdaPbm6q8';
 var API_KEY = 'AIzaSyAYKvaEhqJL8oa5szOJ0p-du7Mw8Chn3Tk';
@@ -258,35 +168,41 @@ var cache = {};
 var seccionActiva = null;
 var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
-// ── SPLASH ──
-(function(){
+// SPLASH
+var splashCerrado = false;
+function cerrarSplash(){
+  if(splashCerrado) return;
+  splashCerrado = true;
   var splash = document.getElementById("splash");
   var logo = document.getElementById("splash-logo");
   var pts = document.getElementById("splash-pts");
-  setTimeout(function(){ logo.style.opacity="1"; logo.style.transform="scale(1)"; }, 200);
+  for(var i=0;i<35;i++){
+    var p = document.createElement("div");
+    var sz = (Math.random()*3+1).toFixed(1);
+    var tx = ((Math.random()-0.5)*300).toFixed(0)+"px";
+    var ty = ((Math.random()-0.5)*300).toFixed(0)+"px";
+    var dl = (Math.random()*0.5).toFixed(2)+"s";
+    var col = Math.random()>0.5 ? "#034C36" : "#E3B8B8";
+    p.style.cssText = "position:absolute;border-radius:50%;width:"+sz+"px;height:"+sz+"px;background:"+col+";left:"+Math.round(Math.random()*100)+"%;top:"+Math.round(Math.random()*100)+"%;--tx:"+tx+";--ty:"+ty+";animation:pt 0.7s "+dl+" forwards;";
+    pts.appendChild(p);
+  }
+  logo.style.transition="all 0.7s";
+  logo.style.opacity="0";
+  logo.style.transform="scale(1.3)";
   setTimeout(function(){
-    for(var i=0;i<35;i++){
-      var p = document.createElement("div");
-      var sz = (Math.random()*3+1).toFixed(1);
-      var tx = ((Math.random()-0.5)*300).toFixed(0)+"px";
-      var ty = ((Math.random()-0.5)*300).toFixed(0)+"px";
-      var dl = (Math.random()*0.5).toFixed(2)+"s";
-      var col = Math.random()>0.5 ? "#034C36" : "#E3B8B8";
-      p.style.cssText = "position:absolute;border-radius:50%;width:"+sz+"px;height:"+sz+"px;background:"+col+";left:"+Math.round(Math.random()*100)+"%;top:"+Math.round(Math.random()*100)+"%;--tx:"+tx+";--ty:"+ty+";animation:pt 0.7s "+dl+" forwards;";
-      pts.appendChild(p);
-    }
-    logo.style.transition="all 0.7s";
-    logo.style.opacity="0";
-    logo.style.transform="scale(1.3)";
-    setTimeout(function(){
-      splash.style.transition="opacity 0.4s";
-      splash.style.opacity="0";
-      setTimeout(function(){ splash.style.display="none"; }, 450);
-    }, 600);
-  }, 5500);
+    splash.style.transition="opacity 0.4s";
+    splash.style.opacity="0";
+    setTimeout(function(){ splash.style.display="none"; }, 450);
+  }, 600);
+}
+(function(){
+  var logo = document.getElementById("splash-logo");
+  setTimeout(function(){ logo.style.opacity="1"; logo.style.transform="scale(1)"; }, 200);
+  // Cerrar a los 3.5s, o antes si la imagen falla
+  setTimeout(cerrarSplash, 3500);
 })();
 
-// ── MATE WHATSAPP ──
+// MATE WA
 (function(){
   var depto = document.getElementById("h-depto");
   var nombre = depto ? depto.textContent.trim() : "el Departamento";
@@ -295,12 +211,23 @@ var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','
   if(link) link.href = "https://wa.me/?text=" + msg;
 })();
 
-// ── LEER SHEETS ──
+// SHEETS
 function formatFecha(v){
   if(!v) return '';
   var s = String(v);
   if(s.indexOf('/')>-1) return s;
   return s;
+}
+
+function getDriveImgUrl(url){
+  var s = String(url);
+  // Formato uc?id=XXX
+  var m1 = s.match(/[?&]id=([a-zA-Z0-9_-]{25,})/);
+  if(m1) return 'https://lh3.googleusercontent.com/d/' + m1[1];
+  // Formato /d/XXX/
+  var m2 = s.match(/\/d\/([a-zA-Z0-9_-]{25,})/);
+  if(m2) return 'https://lh3.googleusercontent.com/d/' + m2[1];
+  return null;
 }
 
 function leerHoja(hoja, callback){
@@ -317,7 +244,15 @@ function leerHoja(hoja, callback){
     .catch(function(){ callback([]); });
 }
 
-// ── ABRIR ──
+function panelHeader(nombre){
+  return '<div class="panel-header"><span class="panel-titulo">'+nombre+'</span><button class="panel-cerrar" onclick="cerrar()">×</button></div>';
+}
+function cerrar(){
+  seccionActiva=null;
+  document.querySelectorAll('.boton').forEach(function(b){b.classList.remove('activo');});
+  document.getElementById('panel').innerHTML='';
+}
+
 function abrir(nombre, btn){
   if(seccionActiva===nombre){cerrar();return;}
   seccionActiva=nombre;
@@ -333,70 +268,58 @@ function abrir(nombre, btn){
   });
 }
 
-function panelHeader(nombre){
-  return '<div class="panel-header"><span class="panel-titulo">'+nombre+'</span><button class="panel-cerrar" onclick="cerrar()">×</button></div>';
-}
-function cerrar(){
-  seccionActiva=null;
-  document.querySelectorAll('.boton').forEach(function(b){b.classList.remove('activo');});
-  document.getElementById('panel').innerHTML='';
-}
-
-// ── RENDER PANEL ──
 function renderPanel(nombre, rows){
   var html = panelHeader(nombre);
   if(!rows||rows.length===0){html+='<div class="estado">Sin contenido aún.</div>';}
   else{
-    var cardIdx=0;
-    rows.forEach(function(f,i){
-      var titulo=f[2]||'',texto=f[3]||'',link=f[4]||'',fecha=formatFecha(f[1])||'';
-      if(!titulo&&!texto&&!link) return;
-      var cid=nombre.replace(/ /g,'_')+'_'+cardIdx;
+    // Agrupar filas: imagen sola se adjunta a card anterior
+    var grupos = [];
+    rows.forEach(function(f){
+      var titulo=f[2]||'', texto=f[3]||'', link=f[4]||'';
+      if(!titulo && !texto && link){
+        if(grupos.length>0) grupos[grupos.length-1].links.push(link);
+      } else if(titulo||texto||link){
+        grupos.push({f:f, links:link?[link]:[]});
+      }
+    });
+    if(!grupos.length){html+='<div class="estado">Sin contenido aún.</div>';}
+    grupos.forEach(function(g,i){
+      var f=g.f, titulo=f[2]||'', texto=f[3]||'', fecha=formatFecha(f[1])||'';
+      var cid=nombre.replace(/ /g,'_')+'_'+i;
       html+="<div class='card'>";
       if(fecha) html+="<div class='card-fecha'>"+fecha+"</div>";
       if(titulo) html+="<div class='card-titulo'>"+titulo+"</div>";
       if(texto) html+="<div class='card-texto'>"+texto+"</div>";
-      if(link){
-        var ls=link.toString();
-        // Convertir cualquier link de Drive a imagen directa
-        var driveId = ls.match(/(?:id=|\/d\/)([a-zA-Z0-9_-]{25,})/);
-        if(driveId){
-          html+="<img src='https://drive.google.com/uc?export=view&id="+driveId[1]+"' loading='lazy' style='width:100%;border-radius:10px;margin-top:12px;' onerror='this.style.display=\\'none\\''>";
-        } else if(ls.indexOf('http')===0){
-          html+="<a class='card-link' href='"+ls+"' target='_blank'>↗ Abrir enlace</a>";
+      g.links.forEach(function(lk){
+        var imgUrl = getDriveImgUrl(lk);
+        if(imgUrl){
+          html+="<img src='"+imgUrl+"' loading='lazy'>";
+        } else if(String(lk).indexOf('http')===0){
+          html+="<a class='card-link' href='"+lk+"' target='_blank'>↗ Abrir enlace</a>";
         }
-      }
+      });
       html+="<button class='btn-comentarios' onclick='toggleComentarios(\""+cid+"\",\""+nombre+"\","+i+")'>💬 comentarios</button>";
-      html+="<div class='comentarios-panel' id='cpanel-"+cid+"'>";
-      html+="<div id='coms-"+cid+"'></div>";
-      html+="<div class='comentario-form'>";
-      html+="<input type='text' placeholder='Tu nombre *' id='cnombre-"+cid+"'>";
+      html+="<div class='comentarios-panel' id='cpanel-"+cid+"'><div id='coms-"+cid+"'></div>";
+      html+="<div class='comentario-form'><input type='text' placeholder='Tu nombre *' id='cnombre-"+cid+"'>";
       html+="<textarea placeholder='Comentario (opcional)...' id='ctexto-"+cid+"'></textarea>";
       html+="<button class='btn-enviar-com' onclick='enviarComentario(\""+cid+"\",\""+nombre+"\","+i+")'>Enviar</button>";
-      html+="<div style='font-size:12px;margin-top:6px;color:var(--sa)' id='cmsg-"+cid+"'></div>";
-      html+="</div></div></div>";
-      cardIdx++;
+      html+="<div style='font-size:12px;margin-top:6px;color:var(--sa)' id='cmsg-"+cid+"'></div></div></div></div>";
     });
-    if(cardIdx===0) html+='<div class="estado">Sin contenido aún.</div>';
   }
   document.getElementById('panel').innerHTML=html;
   document.getElementById('panel').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// ── RENDER CUMPLEAÑOS ──
 function renderCumpleanos(rows){
   var html=panelHeader('Cumpleaños');
   var datos=(rows||[]).filter(function(f){return f[2];});
   if(!datos.length){html+='<div class="estado">Sin cumpleaños cargados.</div>';}
   else{
     datos.forEach(function(f){
-      var nombre=f[2]||'',fecha=formatFecha(f[1]||''),foto=f[4]||'';
+      var nombre=f[2]||'', fecha=formatFecha(f[1]||''), foto=f[4]||'';
       html+="<div class='card'><div class='card-cumple'>";
-      if(foto&&foto.indexOf('drive.google.com')>-1){
-        var fotoId = foto.match(/[-\w]{25,}/);
-        var fotoSrc = fotoId ? 'https://drive.google.com/uc?export=view&id='+fotoId[0] : foto;
-        html+="<img class='card-cumple-foto' src='"+fotoSrc+"' onerror=\"this.style.display='none'\">";
-      }
+      var imgUrl = foto ? getDriveImgUrl(foto) : null;
+      if(imgUrl) html+="<img class='card-cumple-foto' src='"+imgUrl+"'>";
       else html+="<div class='card-cumple-avatar'>🎂</div>";
       html+="<div><div class='card-cumple-nombre'>"+nombre+"</div><div class='card-cumple-fecha'>📅 "+fecha+"</div></div>";
       html+="</div></div>";
@@ -406,7 +329,6 @@ function renderCumpleanos(rows){
   document.getElementById('panel').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// ── RENDER TRAYECTO ──
 function renderTrayecto(nombre, rows){
   var titulo=nombre.indexOf('TURISMO')>-1?'Turismo':'Economía';
   var html=panelHeader(titulo);
@@ -435,7 +357,6 @@ function renderTrayecto(nombre, rows){
   document.getElementById('panel').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// ── CALENDARIO ──
 function renderCalendario(rows){
   var hoy=new Date(),mes=hoy.getMonth(),anio=hoy.getFullYear();
   var eventos=[];
@@ -505,7 +426,6 @@ function _renderCal(mes,anio){
 }
 window._calNav=function(d){var m=(window._calMes||0)+d,a=window._calAnio||new Date().getFullYear();if(m>11){m=0;a++;}if(m<0){m=11;a--;}_renderCal(m,a);};
 
-// ── COMENTARIOS ──
 function toggleComentarios(cid,seccion,idx){
   var panel=document.getElementById('cpanel-'+cid);
   if(!panel) return;
@@ -513,15 +433,19 @@ function toggleComentarios(cid,seccion,idx){
   panel.style.display='block';
   var lista=document.getElementById('coms-'+cid);
   lista.innerHTML='<div style="font-size:12px;color:var(--cs);opacity:0.4;padding:8px 0">Cargando...</div>';
-  google.script.run
-    .withSuccessHandler(function(coms){
-      if(!coms||!coms.length){lista.innerHTML='<div style="font-size:13px;color:var(--cs);opacity:0.4;padding:8px 0">Sin comentarios aún.</div>';return;}
-      var h='';
-      coms.forEach(function(c){h+="<div class='comentario-item'><div class='comentario-nombre'>"+(c[0]||'')+"</div><div class='comentario-texto'>"+(c[1]||'')+"</div><div class='comentario-fecha'>"+(c[2]||'')+"</div></div>";});
-      lista.innerHTML=h;
-    })
-    .withFailureHandler(function(){lista.innerHTML='<div style="font-size:13px;opacity:0.4;">No disponible.</div>';})
-    .obtenerComentarios(seccion,idx);
+  if(typeof google !== 'undefined' && google.script){
+    google.script.run
+      .withSuccessHandler(function(coms){
+        if(!coms||!coms.length){lista.innerHTML='<div style="font-size:13px;opacity:0.4;padding:8px 0">Sin comentarios aún.</div>';return;}
+        var h='';
+        coms.forEach(function(c){h+="<div class='comentario-item'><div class='comentario-nombre'>"+(c[0]||'')+"</div><div class='comentario-texto'>"+(c[1]||'')+"</div><div class='comentario-fecha'>"+(c[2]||'')+"</div></div>";});
+        lista.innerHTML=h;
+      })
+      .withFailureHandler(function(){lista.innerHTML='<div style="font-size:13px;opacity:0.4;">No disponible.</div>';})
+      .obtenerComentarios(seccion,idx);
+  } else {
+    lista.innerHTML='<div style="font-size:13px;opacity:0.4;padding:8px 0">Comentarios no disponibles en esta versión.</div>';
+  }
 }
 
 function enviarComentario(cid,seccion,idx){
@@ -530,53 +454,49 @@ function enviarComentario(cid,seccion,idx){
   var msg=document.getElementById('cmsg-'+cid);
   if(!nombre){if(msg)msg.textContent='⚠️ Tu nombre es obligatorio.';return;}
   if(msg)msg.textContent='Enviando...';
-  google.script.run
-    .withSuccessHandler(function(ok){
-      if(ok){if(msg)msg.textContent='✅ Enviado.';var inp=document.getElementById('ctexto-'+cid);if(inp)inp.value='';}
-      else{if(msg)msg.textContent='❌ Error.';}
-    })
-    .withFailureHandler(function(){if(msg)msg.textContent='❌ No se pudo conectar.';})
-    .guardarComentario(seccion,idx,nombre,texto||'👍');
+  if(typeof google !== 'undefined' && google.script){
+    google.script.run
+      .withSuccessHandler(function(ok){
+        if(ok){if(msg)msg.textContent='✅ Enviado.';}
+        else{if(msg)msg.textContent='❌ Error.';}
+      })
+      .withFailureHandler(function(){if(msg)msg.textContent='❌ No se pudo conectar.';})
+      .guardarComentario(seccion,idx,nombre,texto||'👍');
+  } else {
+    if(msg)msg.textContent='❌ Comentarios no disponibles aquí.';
+  }
 }
 
-// ── CARRUSEL ──
-function cargarCarrusel(){
-  var secs=['NOVEDADES','MATERIALES','CALENDARIO','INDUCCION'];
-  var pend=secs.length,todas=[];
+function cargarTicker(){
+  var secs=['NOVEDADES','MATERIALES','INDUCCION','ATAJOS'];
+  var pend=secs.length, todas=[];
   secs.forEach(function(sec){
     leerHoja(sec,function(rows){
-      if(rows&&rows.length>0){
-        for(var i=rows.length-1;i>=0;i--){
-          var t=rows[i][2]||rows[i][3]||'';
-          if(t){todas.push({seccion:sec,titulo:t.toString(),fecha:formatFecha(rows[i][1])||''});break;}
-        }
-      }
-      if(--pend===0) renderCarrusel(todas);
+      (rows||[]).forEach(function(f){
+        var t=f[2]||f[3]||'';
+        if(t) todas.push({seccion:sec,titulo:String(t),fecha:formatFecha(f[1])||''});
+      });
+      if(--pend===0) renderTicker(todas);
     });
   });
 }
 
-function renderCarrusel(items){
+function renderTicker(items){
   if(!items||!items.length) return;
-  // Duplicar items para loop continuo
-  var todos = items.concat(items);
-  var html = '<div class="ticker-wrap"><div class="ticker-label">novedades recientes</div>';
-  html += '<div class="ticker-track"><div class="ticker-inner">';
+  var todos = items.concat(items); // duplicar para loop
+  var html = '<div class="ticker-wrap"><div class="ticker-label">novedades recientes</div><div class="ticker-inner">';
   todos.forEach(function(item){
-    var sec = item.seccion.charAt(0)+item.seccion.slice(1).toLowerCase();
-    html += '<div class="ticker-item" onclick="abrir(''+item.seccion+'',null)">';
-    html += '<div class="ticker-dot"></div>';
-    html += '<span class="ticker-sec">'+sec+'</span>';
-    html += '<span class="ticker-txt">'+item.titulo+'</span>';
-    if(item.fecha) html += '<span class="ticker-fecha">'+item.fecha+'</span>';
-    html += '</div>';
+    var sec=item.seccion.charAt(0)+item.seccion.slice(1).toLowerCase();
+    html+='<div class="ticker-item" onclick="abrir(\''+item.seccion+'\',null)">';
+    html+='<div class="ticker-dot"></div>';
+    html+='<span class="ticker-sec">'+sec+'</span>';
+    html+='<span class="ticker-txt">'+item.titulo+'</span>';
+    html+='</div>';
   });
-  html += '</div></div></div>';
-  document.getElementById('carrusel-wrap').innerHTML = html;
+  html+='</div></div>';
+  document.getElementById('ticker-wrap').innerHTML=html;
 }
-function irCarrusel(i){}
 
-// ── HORAS TRAYECTO ──
 function cargarHorasTrayecto(nombre,idTotal,idParciales){
   leerHoja(nombre,function(rows){
     if(!rows||!rows.length) return;
@@ -592,7 +512,6 @@ function cargarHorasTrayecto(nombre,idTotal,idParciales){
   });
 }
 
-// ── BOTONES TITILANTES ──
 function marcarTitilantes(){
   var secs=['NOVEDADES','MATERIALES','CALENDARIO','INDUCCION','ATAJOS','INTEGRANTES'];
   var fechas=[],pend=secs.length;
@@ -615,8 +534,8 @@ function marcarTitilantes(){
   });
 }
 
-// ── INICIO ──
-cargarCarrusel();
+// INICIO
+cargarTicker();
 cargarHorasTrayecto('TRAYECTO TURISMO','htur','htur-parciales');
 cargarHorasTrayecto('TRAYECTO ECONOMIA','heco','heco-parciales');
 marcarTitilantes();

@@ -188,41 +188,11 @@ var seccionActiva = null;
 var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 var cache = {};
 
-function sheetUrl(hoja){
-  return 'https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:json&sheet='+encodeURIComponent(hoja)+'&headers=0';
-}
 
-function leerHoja(hoja, callback){
-  if(cache[hoja]){ callback(cache[hoja]); return; }
-  var url = 'https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent(hoja);
-  fetch(url)
-    .then(function(r){ return r.text(); })
-    .then(function(csv){
-      var rows = parseCsv(csv);
-      cache[hoja] = rows;
-      callback(rows);
-    })
-    .catch(function(e){ console.error('Error cargando '+hoja, e); callback([]); });
-}
 
-function parseCsv(csv){
-  var lines = csv.split('\n');
-  var rows = [];
-  lines.forEach(function(line){
-    if(!line.trim()) return;
-    var cols = [];
-    var inQ = false, cur = '';
-    for(var i=0;i<line.length;i++){
-      var c = line[i];
-      if(c==='"'){ inQ=!inQ; }
-      else if(c===','&&!inQ){ cols.push(cur.trim()); cur=''; }
-      else { cur+=c; }
-    }
-    cols.push(cur.trim());
-    rows.push(cols);
-  });
-  return rows.filter(function(r){ return r.some(function(c){ return c; }); });
-}
+
+
+
 
 function formatFecha(v){
   if(!v) return '';
@@ -232,6 +202,50 @@ function formatFecha(v){
   var d = new Date(v);
   if(!isNaN(d.getTime())) return d.getDate()+'/'+(d.getMonth()+1);
   return s;
+}
+
+function leerHoja(hoja, callback){
+  if(cache[hoja]){ callback(cache[hoja]); return; }
+  var cbName = 'gvidcb_' + hoja.replace(/[^a-zA-Z0-9]/g,'') + '_' + Date.now();
+  var script = document.createElement('script');
+  var done = false;
+  window[cbName] = function(data){
+    done = true;
+    var rows = [];
+    if(data && data.table && data.table.rows){
+      data.table.rows.forEach(function(r){
+        var row = [];
+        (r.c||[]).forEach(function(c){
+          if(!c || c.v === null || c.v === undefined){ row.push(''); return; }
+          var v = c.v;
+          // Fechas de gviz vienen como Date(año,mes0,dia)
+          if(typeof v === 'string' && v.indexOf('Date(') === 0){
+            var m = v.match(/Date\((\d+),(\d+),(\d+)/);
+            if(m) v = parseInt(m[3]) + '/' + (parseInt(m[2])+1) + '/' + m[1];
+          }
+          row.push(c.f || v || '');
+        });
+        rows.push(row);
+      });
+    }
+    // Saltar primera fila si es encabezado
+    if(rows.length > 0 && (rows[0][0]==='ID' || rows[0][1]==='Fecha' || rows[0][2]==='Titulo' || rows[0][0]==='Curso')){
+      rows = rows.slice(1);
+    }
+    cache[hoja] = rows;
+    callback(rows);
+    delete window[cbName];
+    if(script.parentNode) script.parentNode.removeChild(script);
+  };
+  script.onerror = function(){
+    if(!done){ done=true; callback([]); }
+    delete window[cbName];
+    if(script.parentNode) script.parentNode.removeChild(script);
+  };
+  script.src = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + 
+    '/gviz/tq?tqx=out:json&callback=' + cbName + 
+    '&sheet=' + encodeURIComponent(hoja);
+  document.head.appendChild(script);
 }
 
 // ── ABRIR SECCIÓN ──
@@ -560,17 +574,6 @@ function marcarTitilantes(){
     });
   });
 }
-
-// ── DEBUG ──
-leerHoja('NOVEDADES', function(rows){
-  var d = document.createElement('div');
-  d.style.cssText = 'background:rgba(255,255,255,0.1);padding:12px;border-radius:8px;margin:10px 0;font-size:11px;word-break:break-all;color:#fff;';
-  d.innerHTML = '<strong>DEBUG NOVEDADES:</strong><br>Filas totales: '+rows.length+'<br>';
-  if(rows.length>0) d.innerHTML += 'Fila 0: '+JSON.stringify(rows[0])+'<br>';
-  if(rows.length>1) d.innerHTML += 'Fila 1: '+JSON.stringify(rows[1])+'<br>';
-  if(rows.length>2) d.innerHTML += 'Fila 2: '+JSON.stringify(rows[2]);
-  document.querySelector('.app').insertBefore(d, document.getElementById('cumple-banner'));
-});
 
 // ── INICIO ──
 cargarCarrusel();

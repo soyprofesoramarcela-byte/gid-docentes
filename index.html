@@ -135,27 +135,14 @@ footer p{font-size:11px;font-weight:300;letter-spacing:0.15em;color:var(--cs);op
 </head>
 <body>
 <!-- PANTALLA DE BIENVENIDA -->
-<div id="splash" style="position:fixed;inset:0;background:#001a12;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;">
-  <div id="splash-logo" style="opacity:0;transform:scale(0.8);transition:all 0.8s ease;">
-    <img src="https://i.imgur.com/wmUIuHk.jpeg" alt="GID" style="width:140px;filter:drop-shadow(0 0 30px rgba(3,76,54,0.9)) drop-shadow(0 0 60px rgba(3,76,54,0.5));">
+<div id="splash" style="position:fixed;inset:0;background:#001a12;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+  <div id="splash-logo" style="opacity:0;transform:scale(0.8);transition:opacity 1s ease,transform 1s ease;">
+    <img src="https://i.imgur.com/wmUIuHk.jpeg" alt="GID" style="width:140px;filter:drop-shadow(0 0 30px rgba(3,76,54,0.9));">
   </div>
-  <div id="splash-particles" style="position:absolute;inset:0;overflow:hidden;pointer-events:none;"></div>
+  <div id="splash-pts" style="position:absolute;inset:0;overflow:hidden;pointer-events:none;"></div>
 </div>
-
 <style>
-@keyframes particula{
-  0%{transform:translate(0,0) scale(1);opacity:1;}
-  100%{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0;}
-}
-#splash.desintegrando #splash-logo{
-  animation:desintegrar 0.8s forwards;
-}
-@keyframes desintegrar{
-  0%{opacity:1;filter:blur(0);}
-  50%{opacity:0.5;filter:blur(4px);}
-  100%{opacity:0;filter:blur(12px);transform:scale(1.3);}
-}
-#splash.oculto{opacity:0;transition:opacity 0.5s;}
+@keyframes pt{0%{opacity:1;transform:translate(0,0) scale(1);}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0);}}
 </style>
 
 <div class="app">
@@ -593,45 +580,43 @@ function marcarTitilantes(){
 
 // ── SPLASH ──
 (function(){
-  var splash = document.getElementById('splash');
-  var logo = document.getElementById('splash-logo');
-  var parts = document.getElementById('splash-particles');
+  var splash = document.getElementById("splash");
+  var logo = document.getElementById("splash-logo");
+  var pts = document.getElementById("splash-pts");
+  if(!splash) return;
   
   // Aparecer logo
-  setTimeout(function(){ logo.style.opacity='1'; logo.style.transform='scale(1)'; }, 100);
+  setTimeout(function(){ 
+    logo.style.opacity = "1"; 
+    logo.style.transform = "scale(1)"; 
+  }, 200);
   
-  // Crear partículas futuristas
-  function crearParticulas(){
-    for(var i=0;i<40;i++){
-      var p = document.createElement('div');
-      var size = Math.random()*3+1;
-      var x = Math.random()*100;
-      var y = Math.random()*100;
-      var dx = (Math.random()-0.5)*200;
-      var dy = (Math.random()-0.5)*200;
-      var delay = Math.random()*0.6;
-      var color = Math.random()>0.5 ? '#034C36' : '#E3B8B8';
-      p.style.cssText = 'position:absolute;border-radius:50%;background:'+color+
-        ';width:'+size+'px;height:'+size+'px;left:'+x+'%;top:'+y+'%;'+
-        '--dx:'+dx+'px;--dy:'+dy+'px;'+
-        'animation:particula 0.8s '+delay+'s forwards;opacity:0;';
-      parts.appendChild(p);
-    }
-  }
-  
-  // Desintegrar después de 2.2 segundos
+  // Desintegrar a los 2.5s
   setTimeout(function(){
-    crearParticulas();
-    logo.style.transition='all 0.8s';
-    logo.style.opacity='0';
-    logo.style.transform='scale(1.2)';
-    logo.style.filter='blur(8px)';
+    // Partículas
+    for(var i=0;i<35;i++){
+      var p = document.createElement("div");
+      var sz = (Math.random()*3+1).toFixed(1);
+      var tx = ((Math.random()-0.5)*300).toFixed(0)+"px";
+      var ty = ((Math.random()-0.5)*300).toFixed(0)+"px";
+      var dl = (Math.random()*0.5).toFixed(2)+"s";
+      var col = Math.random()>0.5 ? "#034C36" : "#E3B8B8";
+      p.style.cssText = "position:absolute;border-radius:50%;width:"+sz+"px;height:"+sz+"px;"+
+        "background:"+col+";left:"+Math.round(Math.random()*100)+"%;top:"+Math.round(Math.random()*100)+"%;"+
+        "--tx:"+tx+";--ty:"+ty+";animation:pt 0.7s "+dl+" forwards;";
+      pts.appendChild(p);
+    }
+    // Desvanecer logo
+    logo.style.transition = "all 0.7s";
+    logo.style.opacity = "0";
+    logo.style.transform = "scale(1.3)";
+    // Ocultar splash
     setTimeout(function(){
-      splash.style.opacity='0';
-      splash.style.transition='opacity 0.4s';
-      setTimeout(function(){ splash.style.display='none'; }, 400);
-    }, 700);
-  }, 2200);
+      splash.style.transition = "opacity 0.4s";
+      splash.style.opacity = "0";
+      setTimeout(function(){ splash.style.display = "none"; }, 450);
+    }, 600);
+  }, 2500);
 })();
 
 // ── MATE WHATSAPP ──

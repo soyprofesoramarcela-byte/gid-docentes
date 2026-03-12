@@ -30,11 +30,11 @@ header{padding:36px 0 24px;text-align:center;}
 .ticker-inner{display:flex;gap:16px;animation:ticker 20s linear infinite;}
 .ticker-inner:hover{animation-play-state:paused;}
 @keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-.ticker-item{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(189,205,207,0.1);border-radius:50px;padding:9px 16px;flex-shrink:0;cursor:pointer;transition:all 0.2s;}
+.ticker-item{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(189,205,207,0.1);border-radius:50px;padding:11px 20px;flex-shrink:0;cursor:pointer;transition:all 0.2s;}
 .ticker-item:active{background:rgba(3,76,54,0.3);}
-.ticker-dot{width:5px;height:5px;border-radius:50%;background:var(--sa);flex-shrink:0;}
-.ticker-sec{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--sa);opacity:0.7;}
-.ticker-txt{font-size:13px;font-weight:300;color:var(--cr);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ticker-dot{width:6px;height:6px;border-radius:50%;background:var(--sa);flex-shrink:0;}
+.ticker-sec{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--sa);opacity:0.7;}
+.ticker-txt{font-size:15px;font-weight:300;color:var(--cr);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
 .boton{background:rgba(255,255,255,0.04);border:1px solid rgba(189,205,207,0.15);border-radius:16px;padding:22px 16px;cursor:pointer;text-align:center;transition:all 0.25s;position:relative;overflow:hidden;color:var(--cr);}
 .boton:active{transform:scale(0.97);}
@@ -80,15 +80,19 @@ header{padding:36px 0 24px;text-align:center;}
 .estado{text-align:center;padding:40px 20px;color:var(--cs);opacity:0.5;font-size:15px;}
 .spinner{width:24px;height:24px;border:2px solid rgba(189,205,207,0.2);border-top-color:var(--cs);border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 12px;}
 @keyframes spin{to{transform:rotate(360deg);}}
+@keyframes fadeInUp{0%{opacity:0;transform:translateY(8px);}100%{opacity:1;transform:translateY(0);}}
+@keyframes bulb-tit{0%,70%,100%{filter:drop-shadow(0 0 0px #ffd232);opacity:0.5;}75%{filter:drop-shadow(0 0 6px #ffd232);opacity:1;}80%{filter:drop-shadow(0 0 2px #ffd232);opacity:0.7;}85%{filter:drop-shadow(0 0 8px #ffd232);opacity:1;}}
 .cal-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
 .cal-mes-label{font-size:13px;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;}
 .cal-nav-btn{background:none;border:1px solid rgba(189,205,207,0.15);border-radius:8px;color:var(--cs);font-size:16px;width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;margin-bottom:20px;}
 .cal-dn{font-size:10px;color:var(--cs);opacity:0.4;padding-bottom:6px;}
-.cal-d{font-size:14px;font-weight:300;padding:6px 2px;border-radius:8px;}
+.cal-d{font-size:14px;font-weight:300;padding:6px 2px;border-radius:8px;position:relative;}
 .cal-d.hoy{background:var(--vp);font-weight:500;}
-.cal-d.tiene-evento{color:var(--sa);font-weight:500;}
-.cal-d.tiene-cumple{color:var(--cr);}
+.cal-d.tiene-evento{color:var(--sa);font-weight:500;position:relative;}
+.cal-d.tiene-evento::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--sa);opacity:0.7;}
+.cal-d.tiene-cumple{color:var(--cr);position:relative;}
+.cal-d.tiene-cumple::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--cr);opacity:0.6;}
 .cal-sep{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--cs);opacity:0.4;margin-bottom:12px;}
 .cal-evento{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid rgba(189,205,207,0.07);}
 .cal-ev-fecha{min-width:40px;text-align:center;flex-shrink:0;}
@@ -112,9 +116,7 @@ footer p{font-size:11px;font-weight:300;letter-spacing:0.15em;color:var(--cs);op
   <span class="h-inst" id="h-inst">I.P.E.M. N°144: Mariano Moreno</span>
   <span class="h-depto" id="h-depto">Departamento de F.V.T.</span>
   <div class="mate-wrap" style="margin-top:18px;">
-    <a id="mate-wa" href="#" target="_blank" rel="noopener" style="display:block;">
-      <img src="https://raw.githubusercontent.com/soyprofesoramarcela-byte/gid-docentes/main/mate.png" alt="mate" class="mate-img">
-    </a>
+    <img src="https://raw.githubusercontent.com/soyprofesoramarcela-byte/gid-docentes/main/mate.png" alt="mate" class="mate-img" style="margin:0 auto;">
   </div>
 </header>
 <div id="cumple-banner"></div>
@@ -128,21 +130,39 @@ footer p{font-size:11px;font-weight:300;letter-spacing:0.15em;color:var(--cs);op
   <button class="boton" onclick="abrir('INTEGRANTES',this)"><span class="boton-titulo">Integrantes</span></button>
   <button class="boton" onclick="abrir('CUMPLEAÑOS',this)"><span class="boton-titulo">Cumpleaños</span></button>
 </div>
-<div class="divider"><span>Formación Profesional</span></div>
-<div class="menu-grid">
-  <button class="boton boton-trayecto" onclick="abrir('TRAYECTO TURISMO',this)">
-    <span class="boton-titulo">Turismo</span>
-    <div style="text-align:right"><div class="boton-horas" id="htur">—<small>hs totales</small></div><div class="boton-horas-parciales" id="htur-parciales"></div></div>
-  </button>
-  <button class="boton boton-trayecto" onclick="abrir('TRAYECTO ECONOMIA',this)">
-    <span class="boton-titulo">Economía</span>
-    <div style="text-align:right"><div class="boton-horas" id="heco">—<small>hs totales</small></div><div class="boton-horas-parciales" id="heco-parciales"></div></div>
-  </button>
-</div>
+<div class="divider"><span id="div-fp-label">Formación Profesional</span></div>
+<div class="menu-grid" id="trayectos-grid"></div>
 <div id="panel"></div>
 <footer>
-  <img src="https://raw.githubusercontent.com/soyprofesoramarcela-byte/gid-docentes/main/logo.jpeg" alt="GID" style="width:80px;opacity:0.7;margin:0 auto 14px;display:block;">
-  <p style="margin-top:10px;font-size:10px;color:var(--sa);opacity:0.6;">Diseñado por Mar Armin</p>
+  <!-- Logo con bombilla -->
+  <div style="display:flex;justify-content:center;margin-bottom:18px;">
+  <div style="position:relative;display:inline-block;">
+    <img src="https://raw.githubusercontent.com/soyprofesoramarcela-byte/gid-docentes/main/logo.jpeg" alt="GID" id="logo-footer" style="width:80px;opacity:0.7;display:block;cursor:pointer;transition:opacity 0.3s;" onclick="toggleFilosofia()">
+    <!-- Bombilla amarilla titilante -->
+    <svg id="logo-bulb" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+      style="position:absolute;bottom:-5px;right:-5px;width:22px;height:22px;cursor:pointer;animation:bulb-tit 4s ease-in-out infinite;"
+      onclick="toggleFilosofia()">
+      <circle cx="11" cy="11" r="10" fill="#001a12" stroke="rgba(255,210,50,0.25)" stroke-width="1"/>
+      <path d="M11 5 C8 5 6 7.2 6 9.5 C6 11.5 7.2 13.2 9 14.1 L9 15.8 L13 15.8 L13 14.1 C14.8 13.2 16 11.5 16 9.5 C16 7.2 14 5 11 5Z" fill="rgba(255,210,50,0.15)" stroke="#ffd232" stroke-width="1" stroke-linejoin="round"/>
+      <line x1="9.2" y1="17" x2="12.8" y2="17" stroke="#ffd232" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="9.8" y1="18.5" x2="12.2" y2="18.5" stroke="#ffd232" stroke-width="1" stroke-linecap="round"/>
+    </svg>
+  </div></div>
+
+  <!-- Cartel filosofía -->
+  <div id="filosofia-panel" style="display:none;max-width:300px;margin:0 auto 16px;padding:22px 24px;background:rgba(0,26,18,0.85);border:1px solid rgba(255,210,50,0.15);border-radius:18px;text-align:center;animation:fadeInUp 0.4s ease;backdrop-filter:blur(8px);">
+    <div style="font-size:16px;margin-bottom:12px;">💡</div>
+    <p style="font-size:12px;font-weight:300;color:var(--cs);line-height:2;letter-spacing:0.03em;">
+      El <em style="color:var(--cr);font-style:normal;font-weight:400;">mudra</em> expresa calma, atención y claridad mental.<br>
+      El <em style="color:var(--cr);font-style:normal;font-weight:400;">código digital</em> refleja el flujo de información institucional.<br>
+      El <em style="color:var(--cr);font-style:normal;font-weight:400;">wifi y la doble tilde</em> simbolizan comunicación recibida y organizada.
+    </p>
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,210,50,0.1);font-size:11px;color:#ffd232;opacity:0.8;letter-spacing:0.06em;line-height:1.7;">
+      En conjunto, el diseño propone gestionar<br>la información para cuidar el<br>bienestar digital docente.
+    </div>
+  </div>
+
+  <p style="margin-top:4px;font-size:10px;color:var(--sa);opacity:0.6;">Diseñado por Mar Armin</p>
   <p style="margin-top:4px;"><a href="#" style="font-size:10px;color:var(--cs);opacity:0.4;text-decoration:none;">Avisos Legales</a></p>
 </footer>
 </div>
@@ -186,14 +206,7 @@ function cerrarSplash(){
   setTimeout(cerrarSplash, 5000);
 })();
 
-// MATE WA
-(function(){
-  var depto = document.getElementById("h-depto");
-  var nombre = depto ? depto.textContent.trim() : "el Departamento";
-  var msg = encodeURIComponent("Tenemos novedades en " + nombre + "\nhttps://teal-lokum-07d15a.netlify.app");
-  var link = document.getElementById("mate-wa");
-  if(link) link.href = "https://wa.me/?text=" + msg;
-})();
+// Mate decorativo — compartir solo desde versión jefe
 
 // SHEETS
 function formatFecha(v){
@@ -266,6 +279,7 @@ function renderPanel(nombre, rows){
         grupos.push({f:f, links:link?[link]:[]});
       }
     });
+    grupos.reverse();
     if(!grupos.length){html+='<div class="estado">Sin contenido aún.</div>';}
     grupos.forEach(function(g,i){
       var f=g.f, titulo=f[2]||'', texto=f[3]||'', fecha=formatFecha(f[1])||'';
@@ -275,19 +289,24 @@ function renderPanel(nombre, rows){
       if(titulo) html+="<div class='card-titulo'>"+titulo+"</div>";
       if(texto) html+="<div class='card-texto'>"+texto+"</div>";
       g.links.forEach(function(lk){
+        var s = String(lk);
         var imgUrl = getDriveImgUrl(lk);
-        if(imgUrl){
-          html+="<img src='"+imgUrl+"' loading='lazy'>";
-        } else if(String(lk).indexOf('http')===0){
-          html+="<a class='card-link' href='"+lk+"' target='_blank'>↗ Abrir enlace</a>";
+        var esCloudinary = s.indexOf('res.cloudinary.com') > -1;
+        var esAudio = esCloudinary && /\.(mp3|wav|ogg|aac|m4a|flac)(\?|$)/i.test(s);
+        var esVideo = esCloudinary && /\.(mp4|mov|webm|avi)(\?|$)/i.test(s);
+        var esImgCloud = esCloudinary && !esAudio && !esVideo;
+        if(esAudio){
+          html+="<div style='margin-top:12px'><audio controls src='"+s+"' style='width:100%;outline:none;border-radius:8px;'></audio></div>";
+        } else if(esVideo){
+          html+="<div style='margin-top:12px'><video controls src='"+s+"' style='width:100%;border-radius:10px;max-height:260px;'></video></div>";
+        } else if(esImgCloud||imgUrl){
+          html+="<img src='"+(esImgCloud?s:imgUrl)+"' loading='lazy' style='width:100%;border-radius:10px;margin-top:12px;display:block;'>";
+        } else if(s.indexOf('http')===0){
+          html+="<a class='card-link' href='"+s+"' target='_blank'>↗ Abrir enlace</a>";
         }
       });
       html+="<button class='btn-comentarios' onclick='toggleComentarios(\""+cid+"\",\""+nombre+"\","+i+")'>💬 comentarios</button>";
-      html+="<div class='comentarios-panel' id='cpanel-"+cid+"'><div id='coms-"+cid+"'></div>";
-      html+="<div class='comentario-form'><input type='text' placeholder='Tu nombre *' id='cnombre-"+cid+"'>";
-      html+="<textarea placeholder='Comentario (opcional)...' id='ctexto-"+cid+"'></textarea>";
-      html+="<button class='btn-enviar-com' onclick='enviarComentario(\""+cid+"\",\""+nombre+"\","+i+")'>Enviar</button>";
-      html+="<div style='font-size:12px;margin-top:6px;color:var(--sa)' id='cmsg-"+cid+"'></div></div></div></div>";
+      html+="<div class='comentarios-panel' id='cpanel-"+cid+"'><div id='coms-"+cid+"'></div></div></div>";
     });
   }
   document.getElementById('panel').innerHTML=html;
@@ -416,40 +435,11 @@ function toggleComentarios(cid,seccion,idx){
   if(panel.style.display==='block'){panel.style.display='none';return;}
   panel.style.display='block';
   var lista=document.getElementById('coms-'+cid);
-  lista.innerHTML='<div style="font-size:12px;color:var(--cs);opacity:0.4;padding:8px 0">Cargando...</div>';
-  if(typeof google !== 'undefined' && google.script){
-    google.script.run
-      .withSuccessHandler(function(coms){
-        if(!coms||!coms.length){lista.innerHTML='<div style="font-size:13px;opacity:0.4;padding:8px 0">Sin comentarios aún.</div>';return;}
-        var h='';
-        coms.forEach(function(c){h+="<div class='comentario-item'><div class='comentario-nombre'>"+(c[0]||'')+"</div><div class='comentario-texto'>"+(c[1]||'')+"</div><div class='comentario-fecha'>"+(c[2]||'')+"</div></div>";});
-        lista.innerHTML=h;
-      })
-      .withFailureHandler(function(){lista.innerHTML='<div style="font-size:13px;opacity:0.4;">No disponible.</div>';})
-      .obtenerComentarios(seccion,idx);
-  } else {
-    lista.innerHTML='<div style="font-size:13px;opacity:0.4;padding:8px 0">Comentarios no disponibles en esta versión.</div>';
-  }
+  // En esta versión los comentarios son de solo lectura vía API
+  lista.innerHTML='<div style="font-size:12px;color:var(--cs);opacity:0.35;padding:6px 0;font-style:italic;">Sin comentarios disponibles.</div>';
 }
 
-function enviarComentario(cid,seccion,idx){
-  var nombre=(document.getElementById('cnombre-'+cid)||{value:''}).value.trim();
-  var texto=(document.getElementById('ctexto-'+cid)||{value:''}).value.trim();
-  var msg=document.getElementById('cmsg-'+cid);
-  if(!nombre){if(msg)msg.textContent='⚠️ Tu nombre es obligatorio.';return;}
-  if(msg)msg.textContent='Enviando...';
-  if(typeof google !== 'undefined' && google.script){
-    google.script.run
-      .withSuccessHandler(function(ok){
-        if(ok){if(msg)msg.textContent='✅ Enviado.';}
-        else{if(msg)msg.textContent='❌ Error.';}
-      })
-      .withFailureHandler(function(){if(msg)msg.textContent='❌ No se pudo conectar.';})
-      .guardarComentario(seccion,idx,nombre,texto||'👍');
-  } else {
-    if(msg)msg.textContent='❌ Comentarios no disponibles aquí.';
-  }
-}
+// enviarComentario no disponible en versión docentes
 
 function cargarTicker(){
   var secs=['NOVEDADES','MATERIALES','INDUCCION','ATAJOS'];
@@ -458,9 +448,17 @@ function cargarTicker(){
     leerHoja(sec,function(rows){
       (rows||[]).forEach(function(f){
         var t=f[2]||f[3]||'';
-        if(t) todas.push({seccion:sec,titulo:String(t),fecha:formatFecha(f[1])||''});
+        if(t) todas.push({seccion:sec,titulo:String(t),fecha:f[1]||''});
       });
-      if(--pend===0) renderTicker(todas);
+      if(--pend===0){
+        // ordenar de más nuevo a más viejo
+        todas.sort(function(a,b){
+          var fa=a.fecha?new Date(a.fecha.split('/').reverse().join('-')):new Date(0);
+          var fb=b.fecha?new Date(b.fecha.split('/').reverse().join('-')):new Date(0);
+          return fb-fa;
+        });
+        renderTicker(todas);
+      }
     });
   });
 }
@@ -491,8 +489,57 @@ function cargarHorasTrayecto(nombre,idTotal,idParciales){
       total+=hs;
       if(hs>0) lineas.push(f[0]+': '+hs+' hs');
     });
-    document.getElementById(idTotal).innerHTML=total+'<small>hs totales</small>';
-    document.getElementById(idParciales).innerHTML=lineas.join('<br>');
+    var elT=document.getElementById(idTotal);
+    var elP=document.getElementById(idParciales);
+    if(elT) elT.innerHTML=total+'<small>hs totales</small>';
+    if(elP) elP.innerHTML=lineas.join('<br>');
+  });
+}
+
+function cargarTrayectosDesdeConfig(){
+  leerHoja('CONFIG',function(rows){
+    // Buscar claves trayecto1, trayecto2, fp_label
+    var t1='TRAYECTO TURISMO', t2='TRAYECTO ECONOMIA', label='Formación Profesional';
+    var t1activo=true, t2activo=true;
+    (rows||[]).forEach(function(r){
+      var k=(r[0]||'').trim().toLowerCase();
+      var v=(r[1]||'').trim();
+      if(k==='trayecto1') t1=v||t1;
+      if(k==='trayecto2') t2=v||t2;
+      if(k==='trayecto1_activo') t1activo=(v!=='no'&&v!=='0'&&v!=='false');
+      if(k==='trayecto2_activo') t2activo=(v!=='no'&&v!=='0'&&v!=='false');
+      if(k==='fp_label') label=v||label;
+    });
+    var lbl=document.getElementById('div-fp-label');
+    if(lbl) lbl.textContent=label;
+    var grid=document.getElementById('trayectos-grid');
+    if(!grid) return;
+    var html='';
+    if(t1activo){
+      var n1=t1.replace('TRAYECTO ','');
+      var id1='ht1';
+      html+='<button class="boton boton-trayecto" onclick="abrir(\''+t1+'\',this)">';
+      html+='<span class="boton-titulo">'+n1.charAt(0)+n1.slice(1).toLowerCase()+'</span>';
+      html+='<div style="text-align:right"><div class="boton-horas" id="'+id1+'">—<small>hs totales</small></div>';
+      html+='<div class="boton-horas-parciales" id="'+id1+'-p"></div></div></button>';
+    }
+    if(t2activo){
+      var n2=t2.replace('TRAYECTO ','');
+      var id2='ht2';
+      html+='<button class="boton boton-trayecto" onclick="abrir(\''+t2+'\',this)">';
+      html+='<span class="boton-titulo">'+n2.charAt(0)+n2.slice(1).toLowerCase()+'</span>';
+      html+='<div style="text-align:right"><div class="boton-horas" id="'+id2+'">—<small>hs totales</small></div>';
+      html+='<div class="boton-horas-parciales" id="'+id2+'-p"></div></div></button>';
+    }
+    grid.innerHTML=html;
+    // ocultar divider si no hay ninguno activo
+    if(!t1activo&&!t2activo){
+      var div=document.querySelector('.divider');
+      if(div) div.style.display='none';
+      grid.style.display='none';
+    }
+    if(t1activo) cargarHorasTrayecto(t1,'ht1','ht1-p');
+    if(t2activo) cargarHorasTrayecto(t2,'ht2','ht2-p');
   });
 }
 
@@ -518,10 +565,23 @@ function marcarTitilantes(){
   });
 }
 
+// FILOSOFIA LOGO
+function toggleFilosofia(){
+  var panel = document.getElementById('filosofia-panel');
+  var logo = document.getElementById('logo-footer');
+  if(!panel) return;
+  if(panel.style.display==='none'){
+    panel.style.display='block';
+    if(logo) logo.style.opacity='1';
+  } else {
+    panel.style.display='none';
+    if(logo) logo.style.opacity='0.7';
+  }
+}
+
 // INICIO
 cargarTicker();
-cargarHorasTrayecto('TRAYECTO TURISMO','htur','htur-parciales');
-cargarHorasTrayecto('TRAYECTO ECONOMIA','heco','heco-parciales');
+cargarTrayectosDesdeConfig();
 marcarTitilantes();
 leerHoja('CUMPLEAÑOS',function(rows){
   var manana=new Date();manana.setDate(manana.getDate()+1);
